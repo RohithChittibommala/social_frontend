@@ -86,7 +86,7 @@ export const UserIcon = styled(AiOutlineUser)`
   ${iconStyles};
 `;
 
-export const InputEnclosingDiv = styled.div`
+export const InputContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -108,6 +108,9 @@ export const Button = styled.div`
   poaition: relative;
   font-family: "Raleway", sans-serif;
   font-size: 21px;
+  &:hover {
+    background-color: orange;
+  }
 `;
 export const TextElement = styled.p`
   font-size: 16px;

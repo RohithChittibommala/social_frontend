@@ -67,7 +67,26 @@ export const GalleryWrapper = styled.div`
 export const GalleryImageDiv = styled.div`
   width: 290px;
   margin: 10px;
+  position: relative;
   cursor: pointer;
+`;
+export const GalleryImageOverlayDiv = styled.div`
+  width: 100%;
+  &:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+  }
+  &:hover:after {
+    opacity: 1;
+  }
 `;
 export const GalleryImage = styled.img`
   max-width: 100%;

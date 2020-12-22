@@ -10,14 +10,13 @@ export const Logo = styled.h1`
 `;
 export const Nav = styled.nav`
   background: #fff;
-  height: 80px;
+  height: 70px;
   display: flex;
   justify-content: space-between;
-
   width: 100vw;
   padding: 0.5rem calc((100vw-1000) / 2);
   z-index: 5;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid lightgray;
 `;
 export const NavLink = styled(Link)`
   color: #333;

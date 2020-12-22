@@ -6,7 +6,7 @@ import {
   FormInput,
   FormTitle,
   IElement,
-  InputEnclosingDiv,
+  InputContainer,
   LoginDiv,
   LoginImage,
   Page,
@@ -23,8 +23,6 @@ function Login() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [isLoginForm, setIsLoginForm] = useState(true);
-  // const [showingPassword, setShowingPassword] = useState(false);
-
   const renderLoginButton = () => (
     <Button backgroundColor={isLoginForm} onClick={handleUserLogin}>
       Login <SubmitDetailsIcon size="24px" />
@@ -46,24 +44,24 @@ function Login() {
         <FormDiv formType={isLoginForm}>
           <FormTitle>{isLoginForm ? "Login" : "Register"}</FormTitle>
           {!isLoginForm && (
-            <InputEnclosingDiv>
+            <InputContainer>
               <UserIcon size="24px" />
               <FormInput
                 placeholder="Enter your name"
                 value={name}
                 onChange={({ target }) => setName(target.value)}
               />
-            </InputEnclosingDiv>
+            </InputContainer>
           )}
-          <InputEnclosingDiv>
+          <InputContainer>
             <EmailIcon size="24px" />
             <FormInput
               placeholder="Enter your email"
               value={email}
               onChange={({ target }) => setEmail(target.value)}
             />
-          </InputEnclosingDiv>
-          <InputEnclosingDiv>
+          </InputContainer>
+          <InputContainer>
             <PasswordIcon size="24px" />
             <FormInput
               placeholder="Enter your password"
@@ -71,8 +69,8 @@ function Login() {
               value={password}
               onChange={({ target }) => setPassword(target.value)}
             />
-          </InputEnclosingDiv>
-          <InputEnclosingDiv>
+          </InputContainer>
+          <InputContainer>
             {isLoginForm ? renderLoginButton() : renderRegisterButton()}
             {isLoginForm ? (
               <TextElement>
@@ -89,7 +87,7 @@ function Login() {
                 </IElement>
               </TextElement>
             )}
-          </InputEnclosingDiv>
+          </InputContainer>
         </FormDiv>
       </LoginDiv>
     </Page>

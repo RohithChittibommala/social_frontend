@@ -2,6 +2,7 @@ import React from "react";
 import {
   GalleryImage,
   GalleryImageDiv,
+  GalleryImageOverlayDiv,
   GalleryWrapper,
   imageAddress,
   ImageDiv,
@@ -23,6 +24,7 @@ function Profile() {
   );
   const renderGalleryImageDiv = (src) => (
     <GalleryImageDiv>
+      <GalleryImageOverlayDiv />
       <GalleryImage src={src} />
     </GalleryImageDiv>
   );
