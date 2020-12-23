@@ -5,13 +5,22 @@ import {
   InputContainer,
   InputLabel,
   PostDescription,
+  SubmitButton,
+  UploadedImage,
 } from "./CreateElements";
 
 function Create() {
   const [isHeadingFocussed, SetIsHeadingFocussed] = useState(false);
   const [isDescriptionFocussed, SetIsDescriptionFocussed] = useState(false);
+  const [image, SetImage] = useState(null);
   const applyOnFocusStyles = { border: "1px solid lightblue" };
   const applyOnBlurStyles = { border: "none" };
+
+  const handleImageUpload = ({ target: { files } }) => {
+    const [uploadedImage] = files;
+    const imageUrl = URL.createObjectURL(uploadedImage);
+    SetImage(imageUrl);
+  };
   return (
     <CreatePostDiv>
       <InputContainer>
@@ -36,8 +45,15 @@ function Create() {
         />
       </InputContainer>
       <InputContainer>
-        <CreatePostInput type="file" accept="image/*" />
+        <UploadedImage src={image} />
+        <CreatePostInput
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+        />
       </InputContainer>
+
+      <SubmitButton>Submit</SubmitButton>
     </CreatePostDiv>
   );
 }
