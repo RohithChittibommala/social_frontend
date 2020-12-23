@@ -6,7 +6,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 /* </style>
 CSS rules to specify families */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 
+/* font-family: 'Roboto', sans-serif; */
 /* CSS rules to specify families */
 
 * {
@@ -18,4 +20,8 @@ CSS rules to specify families */
 }
 body {
   background-color: #fafafa;
+}
+input,
+textarea {
+  outline: none;
 }

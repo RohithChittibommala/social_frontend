@@ -8,7 +8,7 @@ import {
   AiOutlineArrowRight,
 } from "react-icons/ai";
 import { BiKey } from "react-icons/bi";
-const iconStyles = `
+export const iconStyles = `
 
   color: black;
   position: absolute;

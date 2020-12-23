@@ -5,6 +5,8 @@ function Home() {
   return (
     <div style={{ margin: "0 auto", width: "935px" }}>
       <Card />
+      <Card />
+      <Card />
     </div>
   );
 }
