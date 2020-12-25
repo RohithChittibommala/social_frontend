@@ -15,16 +15,43 @@ import {
   SubmitDetailsIcon,
   TextElement,
   UserIcon,
+  ErrorText,
 } from "./LoginElements";
 import registerImageurl from "./assets/register.svg";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [showPassword, SetShowPassword] = useState(false);
-  const handleUserRegister = () => {
-    console.log(name, email, password);
+  const [errors, SetErrors] = useState({});
+  const history = useHistory();
+  const handleUserRegister = async () => {
+    try {
+      const responseJSON = await fetch("http://localhost:4000/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await responseJSON.json();
+      if (data.errors) populateErrorMessages(data.errors);
+      else if (data.userExist)
+        SetErrors((prevState) => ({ ...prevState, email: data.userExist }));
+      else history.push("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const populateErrorMessages = (registerErrors) => {
+    registerErrors.forEach(({ param, msg }) => {
+      console.log(msg, param);
+      SetErrors((prevState) => ({
+        ...prevState,
+        [param]: msg,
+      }));
+    });
   };
   return (
     <Page>
@@ -42,6 +69,7 @@ function Register() {
               value={name}
               onChange={({ target }) => setName(target.value)}
             />
+            <ErrorText>{errors.name}</ErrorText>
           </InputContainer>
 
           <InputContainer>
@@ -49,9 +77,11 @@ function Register() {
             <FormInput
               placeholder="Enter your email"
               value={email}
+              type="email"
               autoComplete="false"
               onChange={({ target }) => setEmail(target.value)}
             />
+            <ErrorText>{errors.email}</ErrorText>
           </InputContainer>
           <InputContainer>
             <PasswordIcon size="24px" />
@@ -62,6 +92,7 @@ function Register() {
               autoComplete="false"
               onChange={({ target }) => setPassword(target.value)}
             />
+            <ErrorText>{errors.password}</ErrorText>
           </InputContainer>
           <div className="password-checkbox">
             <input

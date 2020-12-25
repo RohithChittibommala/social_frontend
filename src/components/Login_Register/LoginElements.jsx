@@ -34,9 +34,10 @@ export const LoginImage = styled.img`
   width: 100%;
 `;
 export const FormDiv = styled.div`
-  width: 300px;
+  width: 400px;
   display: flex;
   ${({ formType }) => (formType === true ? `height:350px` : `height:400px`)};
+  height: 500px;
   justify-content: space-around;
   align-items: center;
   flex-direction: column;
@@ -127,6 +128,10 @@ export const IElement = styled.i`
 `;
 export const ErrorText = styled.p`
   font-size: 16px;
+  text-align: left;
+  margin: 5px 10px;
+  width: 300px;
+  align-self: flex-start;
   font-family: "Raleway", sans-serif;
   color: red;
 `;

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   Button,
   EmailIcon,
+  ErrorText,
   FormDiv,
   FormInput,
   FormTitle,
@@ -21,9 +22,30 @@ import loginImageurl from "./assets/login.svg";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, SetShowPassword] = useState(false);
-  const [errors, SetErrors] = useState({});
-  const handleUserLogin = () => {};
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({});
+  const history = useHistory();
+  const handleUserLogin = async () => {
+    try {
+      const responseJSON = await fetch("http://localhost:4000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await responseJSON.json();
+      console.log(data);
+      if (data.password)
+        setErrors((prevState) => ({ ...prevState, password: data.password }));
+      else if (data.userExist)
+        setErrors((prevState) => ({ ...prevState, email: data.userExist }));
+      else history.push("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  console.log(errors);
   return (
     <Page>
       <SideImageDiv>
@@ -41,6 +63,7 @@ function Login() {
               type="email"
               onChange={({ target }) => setEmail(target.value)}
             />
+            <ErrorText>{errors.email}</ErrorText>
           </InputContainer>
           <InputContainer>
             <PasswordIcon size="24px" />
@@ -50,11 +73,12 @@ function Login() {
               value={password}
               onChange={({ target }) => setPassword(target.value)}
             />
+            <ErrorText>{errors.password}</ErrorText>
           </InputContainer>
           <div className="password-checkbox">
             <input
               type="checkbox"
-              onChange={() => SetShowPassword((prev) => !prev)}
+              onChange={() => setShowPassword((prev) => !prev)}
             />
             <TextElement>show password</TextElement>
           </div>
