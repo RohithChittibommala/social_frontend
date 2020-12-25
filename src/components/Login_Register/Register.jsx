@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import {
   Button,
   EmailIcon,
@@ -17,28 +16,40 @@ import {
   TextElement,
   UserIcon,
 } from "./LoginElements";
-import loginImageurl from "./assets/login.svg";
-function Login() {
+import registerImageurl from "./assets/register.svg";
+import { Link } from "react-router-dom";
+function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [showPassword, SetShowPassword] = useState(false);
-  const [errors, SetErrors] = useState({});
-  const handleUserLogin = () => {};
+  const handleUserRegister = () => {
+    console.log(name, email, password);
+  };
   return (
     <Page>
       <SideImageDiv>
-        <LoginImage src={loginImageurl} />
+        <LoginImage src={registerImageurl} />
       </SideImageDiv>
       <LoginDiv>
-        <FormDiv formType={true}>
-          <FormTitle>{"Login"}</FormTitle>
+        <FormDiv formType={false}>
+          <FormTitle>{"Register"}</FormTitle>
+          <InputContainer>
+            <UserIcon size="24px" />
+            <FormInput
+              placeholder="Enter your name"
+              autoComplete="false"
+              value={name}
+              onChange={({ target }) => setName(target.value)}
+            />
+          </InputContainer>
 
           <InputContainer>
             <EmailIcon size="24px" />
             <FormInput
               placeholder="Enter your email"
               value={email}
-              type="email"
+              autoComplete="false"
               onChange={({ target }) => setEmail(target.value)}
             />
           </InputContainer>
@@ -46,8 +57,9 @@ function Login() {
             <PasswordIcon size="24px" />
             <FormInput
               placeholder="Enter your password"
-              type={!showPassword ? "password" : "text"}
+              type={showPassword ? "text" : "password"}
               value={password}
+              autoComplete="false"
               onChange={({ target }) => setPassword(target.value)}
             />
           </InputContainer>
@@ -58,16 +70,15 @@ function Login() {
             />
             <TextElement>show password</TextElement>
           </div>
-
           <InputContainer>
-            <Button backgroundColor={true} onClick={handleUserLogin}>
-              Login <SubmitDetailsIcon size="24px" />
+            <Button backgroundColor={false} onClick={handleUserRegister}>
+              Register <SubmitDetailsIcon size="24px" />
             </Button>
             <TextElement>
-              New user? create account
-              <IElement>
-                <Link to={"/register"}>here</Link>
-              </IElement>
+              Already have an account login
+              <Link to="/login">
+                <IElement>here</IElement>
+              </Link>
             </TextElement>
           </InputContainer>
         </FormDiv>
@@ -76,4 +87,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

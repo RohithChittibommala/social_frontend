@@ -13,9 +13,11 @@ export const iconStyles = `
   color: black;
   position: absolute;
   top: 10px;
+  z-index:12;
   margin-right:10px;
   left: 10px;
   display: block;
+  background: #d1d1d1;
 `;
 export const Page = styled.div`
   display: flex;
@@ -122,4 +124,9 @@ export const IElement = styled.i`
   font-family: "Raleway", sans-serif;
   text-transform: uppercase;
   cursor: pointer;
+`;
+export const ErrorText = styled.p`
+  font-size: 16px;
+  font-family: "Raleway", sans-serif;
+  color: red;
 `;

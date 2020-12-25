@@ -25,3 +25,13 @@ input,
 textarea {
   outline: none;
 }
+input[type="checkbox"] {
+  margin: 0 8px;
+  box-sizing: border-box;
+}
+.password-checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
