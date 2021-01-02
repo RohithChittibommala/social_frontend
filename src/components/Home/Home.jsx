@@ -1,12 +1,12 @@
 import React from "react";
-import Card from "../card/Card";
+import Post from "../user-posts/Post";
 
 function Home() {
   return (
     <div style={{ margin: "0 auto", width: "935px" }}>
-      <Card />
-      <Card />
-      <Card />
+      <Post />
+      <Post />
+      <Post />
     </div>
   );
 }

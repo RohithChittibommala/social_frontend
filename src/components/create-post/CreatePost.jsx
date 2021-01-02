@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import { toastEmmiterOptions } from "../../configs/toastSettings";
 import {
   CreatePostDiv,
   CreatePostInput,
@@ -8,27 +11,69 @@ import {
   SubmitButton,
   UploadedImage,
 } from "./CreateElements";
-
 function Create() {
-  const [isHeadingFocussed, SetIsHeadingFocussed] = useState(false);
-  const [isDescriptionFocussed, SetIsDescriptionFocussed] = useState(false);
-  const [image, SetImage] = useState(null);
+  const [isTitleFocussed, setIsTitleFocussed] = useState(false);
+  const [isDescriptionFocussed, setIsDescriptionFocussed] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState(null);
+  const [imageFile, setImageFile] = useState("");
   const applyOnFocusStyles = { border: "1px solid lightblue" };
   const applyOnBlurStyles = { border: "none" };
-
-  const handleImageUpload = ({ target: { files } }) => {
+  const history = useHistory();
+  const handleImageUpload = (e) => {
+    const { target } = e;
+    const { files } = target;
     const [uploadedImage] = files;
+    setImageFile(uploadedImage);
     const imageUrl = URL.createObjectURL(uploadedImage);
-    SetImage(imageUrl);
+    setImage(imageUrl);
+  };
+  const postData = async () => {
+    const data = new FormData();
+    data.append("file", imageFile);
+    data.append("upload_preset", "social-app");
+    data.append("cloud_name", "rohith");
+    const responseJSON = await fetch(
+      "https://api.cloudinary.com/v1_1/rohith/image/upload",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+    const { url } = await responseJSON.json();
+    postNewPost(url);
+  };
+  const postNewPost = async (url) => {
+    try {
+      const responseJSON = await fetch(
+        "http://localhost:4000/posts/createpost",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer:${localStorage.getItem("jwt")}`,
+          },
+          body: JSON.stringify({ url, title, description }),
+        }
+      );
+      const data = await responseJSON.json();
+      console.log(data);
+      if (data.error) toast.error(`${data.error}`, toastEmmiterOptions);
+      else toast.success("successfully post uploaded", toastEmmiterOptions);
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <CreatePostDiv>
       <InputContainer>
         <InputLabel>Title</InputLabel>
         <CreatePostInput
-          onFocus={() => SetIsHeadingFocussed(true)}
-          onBlur={() => SetIsHeadingFocussed(false)}
-          style={isHeadingFocussed ? applyOnFocusStyles : applyOnBlurStyles}
+          onFocus={() => setIsTitleFocussed(true)}
+          onBlur={() => setIsTitleFocussed(false)}
+          onChange={({ target }) => setTitle(target.value)}
+          style={isTitleFocussed ? applyOnFocusStyles : applyOnBlurStyles}
           type={"text"}
           placeholder={"Enter Title"}
         />
@@ -36,9 +81,10 @@ function Create() {
       <InputContainer>
         <InputLabel>Description</InputLabel>
         <PostDescription
-          onFocus={() => SetIsDescriptionFocussed(true)}
-          onBlur={() => SetIsDescriptionFocussed(false)}
+          onFocus={() => setIsDescriptionFocussed(true)}
+          onBlur={() => setIsDescriptionFocussed(false)}
           placeholder="Enter the post description"
+          onChange={({ target }) => setDescription(target.value)}
           style={isDescriptionFocussed ? applyOnFocusStyles : applyOnBlurStyles}
           cols="37"
           rows="5"
@@ -53,7 +99,7 @@ function Create() {
         />
       </InputContainer>
 
-      <SubmitButton>Submit</SubmitButton>
+      <SubmitButton onClick={postData}>Submit</SubmitButton>
     </CreatePostDiv>
   );
 }

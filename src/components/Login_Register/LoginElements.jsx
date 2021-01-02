@@ -108,11 +108,14 @@ export const Button = styled.div`
   cursor: pointer;
   margin-bottom: 10px;
   display: flex;
+  transition: 1s all;
   poaition: relative;
   font-family: "Raleway", sans-serif;
+  transform: translateY(-2px);
   font-size: 21px;
   &:hover {
     background-color: orange;
+    transform: translateY(2px);
   }
 `;
 export const TextElement = styled.p`

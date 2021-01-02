@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { imageAddress } from "../Profile/ProfileElements";
+import { imageAddress } from "../Profile/ProfileElements.jsx";
 import {
   CardContent,
   CardDescription,
@@ -13,7 +13,7 @@ import {
   CardTitle,
   FilledHeartIcon,
   OpenHeartIcon,
-} from "./CardElements";
+} from "./PostElements";
 
 function Card() {
   const [isPostLiked, setIsPostLiked] = useState(false);

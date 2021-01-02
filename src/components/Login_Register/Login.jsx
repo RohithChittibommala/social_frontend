@@ -19,6 +19,10 @@ import {
   UserIcon,
 } from "./LoginElements";
 import loginImageurl from "./assets/login.svg";
+import { toast, ToastContainer } from "react-toastify";
+import { toastEmmiterOptions } from "../../configs/toastSettings";
+import Toast from "../Toasts/Toast.jsx";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,21 +44,25 @@ function Login() {
         setErrors((prevState) => ({ ...prevState, password: data.password }));
       else if (data.userExist)
         setErrors((prevState) => ({ ...prevState, email: data.userExist }));
-      else history.push("/");
+      else {
+        localStorage.setItem("jwt", data.token);
+        history.push("/");
+      }
     } catch (error) {
+      toast.error(`error occured ${error}`, toastEmmiterOptions);
       console.error(error);
     }
   };
   console.log(errors);
   return (
     <Page>
+      <Toast />
       <SideImageDiv>
         <LoginImage src={loginImageurl} />
       </SideImageDiv>
       <LoginDiv>
         <FormDiv formType={true}>
           <FormTitle>{"Login"}</FormTitle>
-
           <InputContainer>
             <EmailIcon size="24px" />
             <FormInput
