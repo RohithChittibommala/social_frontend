@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import Post from "../posts/Post";
 import { Store } from "../state/Store";
 import { fetchedPosts, fetchedUserPosts } from "../state/actionTypes";

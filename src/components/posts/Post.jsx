@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { DeleteIcon, PostedByName, SubmitDetailsIcon } from "./PostElements";
+import { confirmAlert } from "react-confirm-alert";
 import { Store } from "../state/Store";
 import {
   CardContent,
@@ -18,12 +19,27 @@ import {
 } from "./PostElements";
 
 function Card({ title, description, url, likes, id, name, userId }) {
-  const [state] = useContext(Store);
+  const [state, dispatch] = useContext(Store);
   const { user } = state;
   const [isPostLiked, setIsPostLiked] = useState(likes.includes(user._id));
   const [noOfLikes, setNoOfLikes] = useState(likes.length);
   const [comment, setComment] = useState("");
-
+  const confirmDelete = () => {
+    confirmAlert({
+      title: "Confirm Delete",
+      message: "Are you sure to delete this",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => hanldePostDelete(),
+        },
+        {
+          label: "No",
+          onClick: () => alert("Not deleted"),
+        },
+      ],
+    });
+  };
   const handlePostLike = () => {
     setNoOfLikes((prev) => prev + 1);
     setIsPostLiked((prev) => !prev);
@@ -70,10 +86,10 @@ function Card({ title, description, url, likes, id, name, userId }) {
     fetch(`http://localhost:4000/posts/delete/${id}`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer:${localStorage.getItem("jwt")}`,
       },
-      body: JSON.stringify({ postID: id }),
+    }).then((res) => {
+      dispatch(id);
     });
   };
   return (
@@ -81,7 +97,9 @@ function Card({ title, description, url, likes, id, name, userId }) {
       <CardHeader>
         <CardHeaderImage src={null} />
         <PostedByName>{name}</PostedByName>
-        {user._id === userId && <DeleteIcon size={30} />}
+        {user._id === userId && (
+          <DeleteIcon onClick={confirmDelete} size={30} />
+        )}
       </CardHeader>
       {url && (
         <CardImageDiv>
