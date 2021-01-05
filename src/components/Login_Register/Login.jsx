@@ -15,12 +15,11 @@ import {
   Page,
   PasswordIcon,
   SideImageDiv,
-  SubmitDetailsIcon,
   TextElement,
 } from "./LoginElements";
 import loginImageurl from "./assets/login.svg";
 import { toast } from "react-toastify";
-import { toastEmmiterOptions } from "../../configs/toastSettings";
+import { toastEmmiterOptions } from "../../utils/toastSettings";
 import Toast from "../Toasts/Toast.jsx";
 import { userLoggedIn } from "../state/actionTypes";
 
@@ -96,7 +95,7 @@ function Login() {
 
           <InputContainer>
             <Button backgroundColor={true} onClick={handleUserLogin}>
-              Login <SubmitDetailsIcon size="24px" />
+              Login
             </Button>
             <TextElement>
               New user? create account

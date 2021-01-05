@@ -24,14 +24,16 @@ function Home() {
   console.log(posts);
   return (
     <div style={{ margin: "0 auto", width: "935px" }}>
-      {posts.map(({ _id, title, description, url, likes }) => (
+      {posts.map(({ _id, title, description, url, likes, postedBy }) => (
         <Post
           key={_id}
           id={_id}
           description={description}
           title={title}
+          name={postedBy.name}
           url={url}
           likes={likes}
+          userId={postedBy._id}
         />
       ))}
     </div>

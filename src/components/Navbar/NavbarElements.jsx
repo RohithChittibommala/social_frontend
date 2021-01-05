@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { NavLink as Link } from "react-router-dom";
-import fonts from "../../configs/fonts";
+import fonts from "../../utils/fonts";
 const transitionEffect = css`
   transition: all 0.3s ease-in-out;
 `;

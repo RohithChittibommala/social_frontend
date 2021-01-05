@@ -1,6 +1,12 @@
 import styled from "styled-components";
-import fonts from "../../configs/fonts";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import fonts from "../../utils/fonts";
+import {
+  AiFillHeart,
+  AiOutlineHeart,
+  AiOutlineSend,
+  AiFillDelete,
+} from "react-icons/ai";
+
 export const CardDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -19,6 +25,8 @@ export const CardImage = styled.img`
 `;
 export const CardHeader = styled.div`
   display: flex;
+  height: 60px;
+  align-items: center;
   background: #fff;
   padding: 12px;
 `;
@@ -76,4 +84,32 @@ export const FilledHeartIcon = styled(AiFillHeart)`
   display: block;
   margin-right: 10px;
   cursor: pointer;
+`;
+export const CommentContainer = styled.div`
+  display: flex;
+`;
+export const SubmitDetailsIcon = styled(AiOutlineSend)`
+  margin-right: 10px;
+  color: ${({ comment }) => (comment > 0 ? "royalblue" : "grey")};
+  cursor: ${({ comment }) => (comment > 0 ? "pointer" : "")};
+`;
+export const DeleteIcon = styled(AiFillDelete)`
+  color: red;
+  margin-left: 300px;
+  cursor: pointer;
+  transition: 0.2s all;
+  :hover {
+    transform: scale(1.1);
+  }
+`;
+
+export const PostedByName = styled.h3`
+  font-weight: bold;
+  font-size: 16px;
+  margin-left: 20px;
+  font-family: "Montserrat";
+  cursor: pointer;
+  :hover {
+    text-decoration: underline;
+  }
 `;

@@ -2,14 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { logoutUser } from "../state/actionTypes";
 import { Store } from "../state/Store";
-import {
-  Nav,
-  NavLink,
-  NavMenu,
-  NavButton,
-  NavButtonLink,
-  Logo,
-} from "./NavbarElements";
+import { Nav, NavLink, NavMenu, NavButton, Logo } from "./NavbarElements";
 function Navbar() {
   const history = useHistory();
   const [state, dispatch] = useContext(Store);

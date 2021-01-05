@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { toastEmmiterOptions } from "../../configs/toastSettings";
+import { toastEmmiterOptions } from "../../utils/toastSettings";
 import { addNewPost } from "../state/actionTypes";
 import { Store } from "../state/Store";
 
