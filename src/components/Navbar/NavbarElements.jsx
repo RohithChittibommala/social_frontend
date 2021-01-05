@@ -16,6 +16,7 @@ export const Nav = styled.nav`
   width: 100vw;
   padding: 0.5rem calc((100vw-1000) / 2);
   z-index: 5;
+  over-flow: hidden;
   border-bottom: 1px solid lightgray;
 `;
 export const NavLink = styled(Link)`
@@ -30,12 +31,11 @@ export const NavLink = styled(Link)`
   padding: 0 1rem;
   margin-right: 24px;
   height: 100%;
+  font-weight: bold;
   ${transitionEffect};
-  &.active {
-    color: #15cdfc;
-  }
   &:hover {
-    color: rgb(24, 218, 105);
+    color: orange;
+    transform: translateY(-10px);
   }
 `;
 export const NavMenu = styled.div`
@@ -44,31 +44,22 @@ export const NavMenu = styled.div`
   margin-right: 10px;
 `;
 export const NavButton = styled.button`
-  padding: 6px 15px;
+  padding: 6px;
   background-color: royalblue;
   outline: none;
-  height: 50px;
   text-transform: capitalize;
-  align-items: center;
-  display: flex;
   border: none;
   border-radius: 25px;
   ${transitionEffect};
-  margin-right: 16px;
-  font-size: 16px;
+  margin-right: 12px;
+  color: #fff;
+  cursor: pointer;
+  width: 120px;
+  text-align: center;
+  font-family: "Grand Hotel", cursive;
+  font-size: 26px;
+
   &:hover {
     background-color: rgb(67, 164, 196);
   }
-`;
-export const NavButtonLink = styled(Link)`
-  color: #fff;
-  cursor: pointer;
-  text-decoration: none;
-  display: flex;
-  font-family: "Grand Hotel", cursive;
-  font-size: 26px;
-  ${transitionEffect};
-  align-items: center;
-  padding: 0 1rem;
-  height: 100%;
 `;

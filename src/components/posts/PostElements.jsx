@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import fonts from "../../configs/fonts";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { iconStyles } from "../Login_Register/LoginElements";
 export const CardDiv = styled.div`
   display: flex;
   flex-direction: column;
   width: 614px;
-
-  min-height: 700px;
+  min-height: 100px;
+  height: auto;
   margin: 100px auto;
   border: 1px solid #8ab7d1;
   background: #fff;
@@ -33,7 +32,7 @@ export const CardContent = styled.div`
   flex-direction: column;
   padding: 20px;
   justify-content: space-between;
-  border-bottom: 1px solid #lightblue;
+  border-bottom: 1px solid lightblue;
 `;
 export const CardTitle = styled.h1`
   font-family: ${fonts.cardFont};
@@ -42,37 +41,39 @@ export const CardTitle = styled.h1`
   margin: 10px 0;
 `;
 export const CardDescription = styled.p`
-  margin: 10px 0;
+  margin: 15px 0;
   font-size: 18px;
 `;
-export const CardInput = styled.input`
+export const PostComment = styled.input`
   width: 100%;
   outline: none;
   height: 30px;
   display: block;
-  -webkit-box-sizing: border-box;
-  // padding: 15px;
   border: none;
   font-size: 18px;
+  transition: 0.2s;
+  &:focus {
+    border-bottom: 1px solid blue;
+  }
 `;
 export const CardIconsDiv = styled.div`
-  dispaly: flex;
-  padding: 12px;
+  display: flex;
+  padding: 5px 15px;
   align-items: center;
-  height: 60px;
+  height: 50px;
   position: relative;
 `;
-export const OpenHeartIcon = styled(AiFillHeart)`
+export const OpenHeartIcon = styled(AiOutlineHeart)`
   color: black;
   position: relative;
-  top: 10px;
   margin-right: 10px;
   cursor: pointer;
 `;
 export const FilledHeartIcon = styled(AiFillHeart)`
   color: red;
   position: relative;
-  top: 10px;
+  /* top: 10px; */
+  display: block;
   margin-right: 10px;
   cursor: pointer;
 `;

@@ -3,6 +3,9 @@ export const CreatePostInput = styled.input`
   padding: 12px;
   font-size: 18px;
   width: 100%;
+  &:focus {
+    border: 1px solid blue;
+  }
 `;
 export const CreatePostDiv = styled.div`
   margin: 10px auto;
@@ -22,8 +25,10 @@ export const InputLabel = styled.h3`
 export const PostDescription = styled.textarea`
   resize: none;
   padding: 12px;
-  rows: 30;
   font-size: 18px;
+  &:focus {
+    border: 1px solid blue;
+  }
 `;
 export const UploadedImage = styled.img`
   width: 100%;

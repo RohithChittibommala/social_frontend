@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toastEmmiterOptions } from "../../configs/toastSettings";
+import { addNewPost } from "../state/actionTypes";
+import { Store } from "../state/Store";
+
 import {
   CreatePostDiv,
   CreatePostInput,
@@ -12,15 +15,12 @@ import {
   UploadedImage,
 } from "./CreateElements";
 function Create() {
-  const [isTitleFocussed, setIsTitleFocussed] = useState(false);
-  const [isDescriptionFocussed, setIsDescriptionFocussed] = useState(false);
+  const history = useHistory();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [imageFile, setImageFile] = useState("");
-  const applyOnFocusStyles = { border: "1px solid lightblue" };
-  const applyOnBlurStyles = { border: "none" };
-  const history = useHistory();
+  const [state, dispatch] = useContext(Store);
   const handleImageUpload = (e) => {
     const { target } = e;
     const { files } = target;
@@ -60,7 +60,11 @@ function Create() {
       const data = await responseJSON.json();
       console.log(data);
       if (data.error) toast.error(`${data.error}`, toastEmmiterOptions);
-      else toast.success("successfully post uploaded", toastEmmiterOptions);
+      else {
+        toast.success("successfully post uploaded", toastEmmiterOptions);
+        dispatch(addNewPost(data));
+        history.push("/");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -70,10 +74,7 @@ function Create() {
       <InputContainer>
         <InputLabel>Title</InputLabel>
         <CreatePostInput
-          onFocus={() => setIsTitleFocussed(true)}
-          onBlur={() => setIsTitleFocussed(false)}
           onChange={({ target }) => setTitle(target.value)}
-          style={isTitleFocussed ? applyOnFocusStyles : applyOnBlurStyles}
           type={"text"}
           placeholder={"Enter Title"}
         />
@@ -81,11 +82,8 @@ function Create() {
       <InputContainer>
         <InputLabel>Description</InputLabel>
         <PostDescription
-          onFocus={() => setIsDescriptionFocussed(true)}
-          onBlur={() => setIsDescriptionFocussed(false)}
           placeholder="Enter the post description"
           onChange={({ target }) => setDescription(target.value)}
-          style={isDescriptionFocussed ? applyOnFocusStyles : applyOnBlurStyles}
           cols="37"
           rows="5"
         />

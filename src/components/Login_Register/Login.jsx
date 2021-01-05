@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { Store } from "../state/Store";
 import { Link, useHistory } from "react-router-dom";
 import {
   Button,
@@ -16,12 +17,12 @@ import {
   SideImageDiv,
   SubmitDetailsIcon,
   TextElement,
-  UserIcon,
 } from "./LoginElements";
 import loginImageurl from "./assets/login.svg";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { toastEmmiterOptions } from "../../configs/toastSettings";
 import Toast from "../Toasts/Toast.jsx";
+import { userLoggedIn } from "../state/actionTypes";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -29,6 +30,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const history = useHistory();
+  const [state, dispatch] = useContext(Store);
   const handleUserLogin = async () => {
     try {
       const responseJSON = await fetch("http://localhost:4000/login", {
@@ -39,21 +41,22 @@ function Login() {
         body: JSON.stringify({ email, password }),
       });
       const data = await responseJSON.json();
-      console.log(data);
+
       if (data.password)
         setErrors((prevState) => ({ ...prevState, password: data.password }));
       else if (data.userExist)
         setErrors((prevState) => ({ ...prevState, email: data.userExist }));
-      else {
+      else if (data.user) {
         localStorage.setItem("jwt", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
         history.push("/");
+        dispatch(userLoggedIn(data.user));
       }
     } catch (error) {
       toast.error(`error occured ${error}`, toastEmmiterOptions);
       console.error(error);
     }
   };
-  console.log(errors);
   return (
     <Page>
       <Toast />

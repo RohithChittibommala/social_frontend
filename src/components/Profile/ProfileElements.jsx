@@ -1,6 +1,4 @@
 import styled from "styled-components";
-
-export const imageAddress = `https://images.unsplash.com/photo-1569466896818-335b1bedfcce?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fHBlcnNvbnxlbnwwfDJ8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60 `;
 const profileFont = `
   font-family: "Dosis", sans-serif;
 `;
@@ -30,7 +28,7 @@ export const ProfileInfoDiv = styled.div`
 export const ProfileImage = styled.img`
   height: 180px;
   display: flex;
-
+  object-fit: contain;
   width: 180px;
   border-radius: 50%;
 `;
@@ -54,6 +52,7 @@ export const ProfileStat = styled.p`
 export const ProfileStatNum = styled.span`
   font-weight: bold;
   font-size: 16px;
+  color:#000
   margin-right: 10px;
   font-family: "Noto Sans JP", sans-serif;
 `;
@@ -66,6 +65,7 @@ export const GalleryWrapper = styled.div`
 `;
 export const GalleryImageDiv = styled.div`
   width: 290px;
+  height: 290px;
   margin: 10px;
   position: relative;
   cursor: pointer;
@@ -90,6 +90,5 @@ export const GalleryImageOverlayDiv = styled.div`
 `;
 export const GalleryImage = styled.img`
   max-width: 100%;
-  height: auto;
-  width: auto\9;
+  object-fit: contain;
 `;
