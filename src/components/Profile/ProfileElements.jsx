@@ -10,14 +10,16 @@ export const Wrapper = styled.div`
   border-bottom: 1px solid #dbdbdb;
 `;
 export const ImageDiv = styled.div`
-  flex: 0.3;
+  flex: 0.4;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   width: 160px;
   padding: 0% 1% 2%;
 `;
 export const ProfileInfoDiv = styled.div`
-  flex: 0.7;
+  flex: 0.6;
   ${profileFont};
   margin-left: 15px;
   font-size: 18px;
@@ -35,10 +37,12 @@ export const ProfileImage = styled.img`
 export const ProfileName = styled.h1`
   ${profileFont};
   font-weight: 300;
+  margin-left: 150px;
   color: #333;
 `;
 export const ProfileStatsDiv = styled.div`
   display: flex;
+  justify-content: space-around;
 `;
 export const ProfileStat = styled.p`
   margin-right: 25px;
@@ -52,7 +56,7 @@ export const ProfileStat = styled.p`
 export const ProfileStatNum = styled.span`
   font-weight: bold;
   font-size: 16px;
-  color:#000
+  color: #000;
   margin-right: 10px;
   font-family: "Noto Sans JP", sans-serif;
 `;
@@ -89,6 +93,62 @@ export const GalleryImageOverlayDiv = styled.div`
   }
 `;
 export const GalleryImage = styled.img`
-  max-width: 100%;
+  width: 100%;
   object-fit: contain;
+`;
+
+export const ProfileNameContainer = styled.div`
+  display: flex;
+  height: 50px;
+  align-items: center;
+`;
+export const FollowButton = styled.button`
+  background-color: #2e7ed8;
+  color: #fff;
+  outline: none;
+  border: none;
+  margin: 0 50px;
+  border-radius: 6px;
+  padding: 6px;
+  cursor: pointer;
+  height: 35px;
+  transition: 0.5s ease-in all;
+  width: 90px;
+  font-size: 15px;
+  &:hover {
+    background-color: #0e4e97;
+  }
+`;
+export const SubmitButton = styled.button`
+  display: block;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75em;
+  letter-spacing: 1px;
+  height: 38px;
+  color: #fff;
+  width: 120px;
+  outline: none;
+  line-height: 38px;
+  overflow: hidden;
+  background: #4dbecf;
+  border-radius: 3px;
+  box-shadow: 0 15px 30px rgba(black, 0.1);
+  border: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 15px 60px;
+  &:hover,
+  &:focus {
+    box-shadow: 0 5px 15px rgba(black, 0.1);
+  }
+`;
+export const CreatePostInput = styled.input`
+  padding: 12px;
+  font-size: 18px;
+  width: 100%;
+  &:focus {
+    border: 1px solid blue;
+  }
 `;

@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from "react";
 import Post from "../posts/Post";
 import { Store } from "../state/Store";
 import { fetchedPosts, fetchedUserPosts } from "../state/actionTypes";
+import { useHistory } from "react-router-dom";
 
 function Home() {
   const [state, dispatch] = useContext(Store);
@@ -21,7 +22,6 @@ function Home() {
         .catch((err) => console.log(err));
     }
   }, [isAuthenicated, posts.length]);
-  console.log(posts);
   return (
     <div style={{ margin: "0 auto", width: "935px" }}>
       {posts.map(({ _id, title, description, url, likes, postedBy }) => (
@@ -30,10 +30,11 @@ function Home() {
           id={_id}
           description={description}
           title={title}
-          name={postedBy.name}
+          name={postedBy?.name}
           url={url}
           likes={likes}
-          userId={postedBy._id}
+          userId={postedBy?._id}
+          imageUrl={postedBy?.imageUrl}
         />
       ))}
     </div>

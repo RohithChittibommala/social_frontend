@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { DeleteIcon, PostedByName, SubmitDetailsIcon } from "./PostElements";
 import { confirmAlert } from "react-confirm-alert";
 import { Store } from "../state/Store";
 import {
@@ -7,6 +6,9 @@ import {
   CardDescription,
   CardDiv,
   CardHeader,
+  DeleteText,
+  PostedBy,
+  SubmitDetailsIcon,
   CardHeaderImage,
   CardIconsDiv,
   CardImage,
@@ -17,8 +19,9 @@ import {
   OpenHeartIcon,
   CommentContainer,
 } from "./PostElements";
+import { deletePost } from "../state/actionTypes";
 
-function Card({ title, description, url, likes, id, name, userId }) {
+function Card({ title, description, url, likes, id, name, userId, imageUrl }) {
   const [state, dispatch] = useContext(Store);
   const { user } = state;
   const [isPostLiked, setIsPostLiked] = useState(likes.includes(user._id));
@@ -89,16 +92,18 @@ function Card({ title, description, url, likes, id, name, userId }) {
         Authorization: `Bearer:${localStorage.getItem("jwt")}`,
       },
     }).then((res) => {
-      dispatch(id);
+      dispatch(deletePost(id));
     });
   };
   return (
     <CardDiv>
       <CardHeader>
-        <CardHeaderImage src={null} />
-        <PostedByName>{name}</PostedByName>
+        <CardHeaderImage src={imageUrl} />
+        <PostedBy to={user._id === userId ? "/profile" : `/profile/${userId}`}>
+          {name}
+        </PostedBy>
         {user._id === userId && (
-          <DeleteIcon onClick={confirmDelete} size={30} />
+          <DeleteText onClick={confirmDelete}>Delete</DeleteText>
         )}
       </CardHeader>
       {url && (
@@ -106,21 +111,20 @@ function Card({ title, description, url, likes, id, name, userId }) {
           <CardImage src={url} />
         </CardImageDiv>
       )}
-
-      {isPostLiked ? (
-        <CardIconsDiv>
-          <FilledHeartIcon size={30} onClick={handlePostUnLike} />
-          <h2>{noOfLikes}</h2>
-        </CardIconsDiv>
-      ) : (
-        <CardIconsDiv>
-          <OpenHeartIcon size={30} onClick={handlePostLike} />
-          <h2>{noOfLikes}</h2>
-        </CardIconsDiv>
-      )}
       <CardContent>
         {title && <CardTitle>{title}</CardTitle>}
         {description && <CardDescription>{description}</CardDescription>}
+        {isPostLiked ? (
+          <CardIconsDiv>
+            <FilledHeartIcon size={30} onClick={handlePostUnLike} />
+            <h2>{noOfLikes}</h2>
+          </CardIconsDiv>
+        ) : (
+          <CardIconsDiv>
+            <OpenHeartIcon size={30} onClick={handlePostLike} />
+            <h2>{noOfLikes}</h2>
+          </CardIconsDiv>
+        )}
         <CommentContainer>
           <PostComment
             value={comment}

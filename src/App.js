@@ -10,6 +10,7 @@ import Toast from "./components/Toasts/Toast";
 import "react-toastify/dist/ReactToastify.css";
 import { StoreProvider } from "./components/state/Store";
 import { useEffect } from "react";
+import OtherUserProfile from "./components/Profile/OtherUserProfile";
 function App() {
   const history = useHistory();
   useEffect(() => {
@@ -26,6 +27,7 @@ function App() {
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/createpost" component={CreatePost} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/profile/:id" component={OtherUserProfile} />
       </Switch>
     </StoreProvider>
   );

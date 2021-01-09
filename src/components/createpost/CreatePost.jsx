@@ -30,21 +30,26 @@ function Create() {
     setImage(imageUrl);
   };
   const postData = async () => {
+    if (!image) createNewPost();
     const data = new FormData();
     data.append("file", imageFile);
     data.append("upload_preset", "social-app");
     data.append("cloud_name", "rohith");
-    const responseJSON = await fetch(
-      "https://api.cloudinary.com/v1_1/rohith/image/upload",
-      {
-        method: "POST",
-        body: data,
-      }
-    );
-    const { url } = await responseJSON.json();
-    postNewPost(url);
+    try {
+      const responseJSON = await fetch(
+        "https://api.cloudinary.com/v1_1/rohith/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      const { url } = await responseJSON.json();
+      createNewPost(url);
+    } catch (error) {
+      //// handle errpr
+    }
   };
-  const postNewPost = async (url) => {
+  const createNewPost = async (url) => {
     try {
       const responseJSON = await fetch(
         "http://localhost:4000/posts/createpost",

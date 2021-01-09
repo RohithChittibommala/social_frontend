@@ -103,7 +103,7 @@ function Register() {
           </div>
           <InputContainer>
             <Button backgroundColor={false} onClick={handleUserRegister}>
-              Register <SubmitDetailsIcon size="24px" />
+              Register
             </Button>
             <TextElement>
               Already have an account login

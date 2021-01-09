@@ -6,6 +6,7 @@ import {
   AiOutlineSend,
   AiFillDelete,
 } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 export const CardDiv = styled.div`
   display: flex;
@@ -93,9 +94,11 @@ export const SubmitDetailsIcon = styled(AiOutlineSend)`
   color: ${({ comment }) => (comment > 0 ? "royalblue" : "grey")};
   cursor: ${({ comment }) => (comment > 0 ? "pointer" : "")};
 `;
-export const DeleteIcon = styled(AiFillDelete)`
+export const DeleteText = styled.h2`
   color: red;
   margin-left: 300px;
+  font-size: 18px;
+  text-transform: uppercase;
   cursor: pointer;
   transition: 0.2s all;
   :hover {
@@ -103,13 +106,40 @@ export const DeleteIcon = styled(AiFillDelete)`
   }
 `;
 
-export const PostedByName = styled.h3`
+export const PostedBy = styled(Link)`
   font-weight: bold;
   font-size: 16px;
   margin-left: 20px;
+  text-decoration: none;
+  color: #333;
   font-family: "Montserrat";
   cursor: pointer;
   :hover {
     text-decoration: underline;
+  }
+`;
+export const Button = styled.button`
+  display: block;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75em;
+  letter-spacing: 1px;
+  height: 38px;
+  color: #fff;
+  width: 120px;
+  outline: none;
+  line-height: 38px;
+  overflow: hidden;
+  background: #4dbecf;
+  border-radius: 3px;
+  box-shadow: 0 15px 30px rgba(black, 0.1);
+  border: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 15px 60px;
+  &:hover,
+  &:focus {
+    box-shadow: 0 5px 15px rgba(black, 0.1);
   }
 `;
