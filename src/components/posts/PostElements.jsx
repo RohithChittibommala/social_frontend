@@ -19,10 +19,17 @@ export const CardDiv = styled.div`
   background: #fff;
 `;
 export const CardImageDiv = styled.div`
-  height: auto;
+  max-width: 450px;
+  max-height: 600px;
+  margin: 0 auto;
+  overflow-x: hidden;
+  overflow-y: hidden;
 `;
 export const CardImage = styled.img`
-  width: 100%;
+  max-width: 100%;
+  object-fit: fill;
+  /* margin-left: 125px; */
+  max-height: 100%;
 `;
 export const CardHeader = styled.div`
   display: flex;
