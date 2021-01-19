@@ -8,7 +8,7 @@ export const CreatePostInput = styled.input`
   }
 `;
 export const CreatePostDiv = styled.div`
-  margin: 10px auto;
+  margin: 70px auto;
   max-width: 500px;
 `;
 export const InputContainer = styled.div`
@@ -48,11 +48,15 @@ export const SubmitButton = styled.button`
   outline: none;
   line-height: 38px;
   overflow: hidden;
-  background: #4dbecf;
+  background: ${({ disabled }) => {
+    return disabled ? `#9daaac` : `#24b1c7`;
+  }};
   border-radius: 3px;
   box-shadow: 0 15px 30px rgba(black, 0.1);
   border: 0;
-  cursor: pointer;
+  cursor: ${({ disabled }) => {
+    return !disabled ? `pointer` : null;
+  }};
   transition: all 0.3s ease;
   margin: 15px 60px;
   &:hover,

@@ -23,20 +23,23 @@ function Home() {
     }
   }, [isAuthenicated, posts.length]);
   return (
-    <div style={{ margin: "0 auto", width: "935px" }}>
-      {posts.map(({ _id, title, description, url, likes, postedBy }) => (
-        <Post
-          key={_id}
-          id={_id}
-          description={description}
-          title={title}
-          name={postedBy?.name}
-          url={url}
-          likes={likes}
-          userId={postedBy?._id}
-          imageUrl={postedBy?.imageUrl}
-        />
-      ))}
+    <div style={{ margin: "0 auto", width: "935px", padding: "108px 0" }}>
+      {posts.map(
+        ({ _id, title, description, url, likes, postedBy, comments }) => (
+          <Post
+            key={_id}
+            id={_id}
+            description={description}
+            title={title}
+            name={postedBy?.name}
+            url={url}
+            likes={likes}
+            userId={postedBy?._id}
+            imageUrl={postedBy?.imageUrl}
+            comments={comments}
+          />
+        )
+      )}
     </div>
   );
 }

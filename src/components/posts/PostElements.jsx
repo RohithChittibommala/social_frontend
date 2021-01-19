@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import fonts from "../../utils/fonts";
+import Modal from "react-modal";
 import {
   AiFillHeart,
   AiOutlineHeart,
@@ -8,59 +9,78 @@ import {
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
-export const CardDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 614px;
-  min-height: 100px;
-  height: auto;
-  margin: 100px auto;
-  border: 1px solid #8ab7d1;
-  background: #fff;
+export const PostArticle = styled.article`
+  border-radius: 3px;
+  border: 1px solid #e6e6e6;
+  background-color: #fff;
+  margin-bottom: 60px;
+  margin-left: 20%;
+  margin-right: 20%;
 `;
-export const CardImageDiv = styled.div`
-  max-width: 450px;
+export const PostImageDiv = styled.div`
+  /* max-width: 450px;
   max-height: 600px;
   margin: 0 auto;
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: hidden; */
 `;
-export const CardImage = styled.img`
-  max-width: 100%;
-  object-fit: fill;
-  /* margin-left: 125px; */
-  max-height: 100%;
+export const PostImage = styled.img`
+  display: block;
+  width: 100%;
 `;
-export const CardHeader = styled.div`
-  display: flex;
+export const PostHeader = styled.header`
+  /* display: flex;
   height: 60px;
   align-items: center;
   background: #fff;
-  padding: 12px;
+  padding: 12px; */
 `;
-export const CardHeaderImage = styled.img`
+
+export const PostUser = styled.div`
+  display: flex;
+  padding: 12px;
+  align-items: center;
+`;
+export const PostUserImage = styled.img`
   width: 30px;
   object-fit: "contain";
   border-radius: 50%;
 `;
-export const CardContent = styled.div`
+export const PostUserImageDiv = styled.div`
+  width: 30px;
+  height: 34px;
+`;
+export const PostUserNameDiv = styled.div`
+  margin-left: 12px;
+  font-family: "PT Sans", sans-serif;
+  font-weight: bold;
+`;
+export const PostContent = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
   justify-content: space-between;
   border-bottom: 1px solid lightblue;
 `;
-export const CardTitle = styled.h1`
-  font-family: ${fonts.cardFont};
-  font-weight: 600;
-  font-size: 25px;
-  margin: 10px 0;
+
+export const PostDescription = styled.div`
+  padding: 10px 16px;
+  display: flex;
 `;
-export const CardDescription = styled.p`
-  margin: 15px 0;
-  font-size: 18px;
+
+export const PostDescriptionStrong = styled.strong`
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: 19px;
+  color: #000;
+  cursor: pointer;
 `;
-export const PostComment = styled.input`
+
+export const PostDescriptionP = styled.p`
+  font-size: 19px;
+`;
+
+export const PostCommentInput = styled.input`
   width: 100%;
   outline: none;
   height: 30px;
@@ -68,15 +88,13 @@ export const PostComment = styled.input`
   border: none;
   font-size: 18px;
   transition: 0.2s;
-  &:focus {
-    border-bottom: 1px solid blue;
-  }
 `;
-export const CardIconsDiv = styled.div`
+export const LikeIconDiv = styled.div`
   display: flex;
   padding: 5px 15px;
+  margin: 15px 0;
   align-items: center;
-  height: 50px;
+  /* height: 50px; */
   position: relative;
 `;
 export const OpenHeartIcon = styled(AiOutlineHeart)`
@@ -95,8 +113,11 @@ export const FilledHeartIcon = styled(AiFillHeart)`
 `;
 export const CommentContainer = styled.div`
   display: flex;
+  margin: 10px 0;
+  padding: 16px 0px;
+  border-top: 0.6px solid #b8e1ee;
 `;
-export const SubmitDetailsIcon = styled(AiOutlineSend)`
+export const CommentIcon = styled(AiOutlineSend)`
   margin-right: 10px;
   color: ${({ comment }) => (comment > 0 ? "royalblue" : "grey")};
   cursor: ${({ comment }) => (comment > 0 ? "pointer" : "")};
@@ -113,7 +134,11 @@ export const DeleteText = styled.h2`
   }
 `;
 
-export const PostedBy = styled(Link)`
+export const PostImageBackground = styled.div`
+  background-color: #efefef;
+`;
+
+export const PostUserName = styled(Link)`
   font-weight: bold;
   font-size: 16px;
   margin-left: 20px;
@@ -125,28 +150,20 @@ export const PostedBy = styled(Link)`
     text-decoration: underline;
   }
 `;
-export const Button = styled.button`
-  display: block;
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 0.75em;
-  letter-spacing: 1px;
-  height: 38px;
-  color: #fff;
-  width: 120px;
+
+export const ShowComments = styled(Modal)`
+  height: 400px;
+  width: 400px;
+  margin: 150px auto;
+  padding: 15px 20px;
+  border-radius: 30px;
   outline: none;
-  line-height: 38px;
-  overflow: hidden;
-  background: #4dbecf;
-  border-radius: 3px;
-  box-shadow: 0 15px 30px rgba(black, 0.1);
-  border: 0;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin: 15px 60px;
-  &:hover,
-  &:focus {
-    box-shadow: 0 5px 15px rgba(black, 0.1);
-  }
+  background: #fff;
+`;
+
+export const Comment = styled.p`
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border-bottom: 1.5px solid lightgrey;
+  padding: 10px 16px;
+  font-size: 19px;
 `;

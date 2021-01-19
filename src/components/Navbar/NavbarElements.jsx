@@ -9,15 +9,17 @@ export const Logo = styled.h1`
   font-family: "Grand Hotel", cursive;
 `;
 export const Nav = styled.nav`
-  background: #fff;
-  height: 70px;
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.0975);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  /* z-index: 2; */
   display: flex;
-  justify-content: space-between;
-  width: 100vw;
-  padding: 0.5rem calc((100vw-1000) / 2);
-  z-index: 5;
-  over-flow: hidden;
-  border-bottom: 1px solid lightgray;
+  justify-content: space-around;
+  -webkit-transition: height 0.2s ease-in-out;
+  transition: height 0.2s ease-in-out;
+  height: 77px;
 `;
 export const NavLink = styled(Link)`
   color: #333;

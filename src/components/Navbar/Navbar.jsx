@@ -20,7 +20,6 @@ function Navbar() {
         </NavLink>
         <NavMenu>
           <NavLink to="/profile">profile</NavLink>
-          <NavLink to="/">Home</NavLink>
           <NavLink to={isAuthenicated ? "/createpost" : "/"}>
             Create Post
           </NavLink>

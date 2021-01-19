@@ -1,32 +1,51 @@
 import React, { useContext, useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import { Store } from "../state/Store";
+
 import {
-  CardContent,
-  CardDescription,
-  CardDiv,
-  CardHeader,
+  Comment,
+  PostContent,
+  PostDescription,
+  PostHeader,
+  PostUser,
   DeleteText,
-  PostedBy,
-  SubmitDetailsIcon,
-  CardHeaderImage,
-  CardIconsDiv,
-  CardImage,
-  CardImageDiv,
-  PostComment,
-  CardTitle,
-  FilledHeartIcon,
-  OpenHeartIcon,
+  PostUserName,
+  CommentIcon,
+  LikeIconDiv,
+  PostImage,
+  PostDescriptionP,
+  PostCommentInput,
   CommentContainer,
+  FilledHeartIcon,
+  OpenHeartIcon as UnFilledHeartIcon,
+  PostImageDiv,
+  PostArticle,
+  PostUserImageDiv,
+  PostUserNameDiv,
+  PostImageBackground,
+  PostUserImage,
+  PostDescriptionStrong,
+  ShowComments,
 } from "./PostElements";
 import { deletePost } from "../state/actionTypes";
-
-function Card({ title, description, url, likes, id, name, userId, imageUrl }) {
+ShowComments.setAppElement("#root");
+function Card({
+  description,
+  url,
+  likes,
+  id,
+  name,
+  userId,
+  imageUrl,
+  comments,
+}) {
   const [state, dispatch] = useContext(Store);
   const { user } = state;
   const [isPostLiked, setIsPostLiked] = useState(likes.includes(user._id));
   const [noOfLikes, setNoOfLikes] = useState(likes.length);
+  const [isModalOpen, SetIsModalOpen] = useState(false);
   const [comment, setComment] = useState("");
+  const [postComments, SetPostComments] = useState(comments);
   const confirmDelete = () => {
     confirmAlert({
       title: "Confirm Delete",
@@ -96,49 +115,76 @@ function Card({ title, description, url, likes, id, name, userId, imageUrl }) {
     });
   };
   return (
-    <CardDiv>
-      <CardHeader>
-        <CardHeaderImage src={imageUrl} />
-        <PostedBy to={user._id === userId ? "/profile" : `/profile/${userId}`}>
-          {name}
-        </PostedBy>
-        {user._id === userId && (
-          <DeleteText onClick={confirmDelete}>Delete</DeleteText>
-        )}
-      </CardHeader>
+    <PostArticle>
+      <PostHeader>
+        <PostUser>
+          <PostUserImageDiv>
+            <PostUserImage src={imageUrl} />
+          </PostUserImageDiv>
+          <PostUserNameDiv>
+            <PostUserName
+              to={user._id === userId ? "/profile" : `/profile/${userId}`}
+            >
+              {name}
+            </PostUserName>
+          </PostUserNameDiv>
+          {user._id === userId && (
+            <DeleteText onClick={confirmDelete}>Delete</DeleteText>
+          )}
+        </PostUser>
+      </PostHeader>
       {url && (
-        <CardImageDiv>
-          <CardImage src={url} />
-        </CardImageDiv>
+        <PostImageDiv>
+          <PostImageBackground>
+            <PostImage src={url} />
+          </PostImageBackground>
+        </PostImageDiv>
       )}
-      <CardContent>
-        {title && <CardTitle>{title}</CardTitle>}
-        {description && <CardDescription>{description}</CardDescription>}
-        {isPostLiked ? (
-          <CardIconsDiv>
+      <PostContent>
+        <PostDescription>
+          <PostDescriptionStrong>{name}</PostDescriptionStrong>
+          <PostDescriptionP>{description}</PostDescriptionP>
+        </PostDescription>
+        <LikeIconDiv>
+          {isPostLiked ? (
             <FilledHeartIcon size={30} onClick={handlePostUnLike} />
-            <h2>{noOfLikes}</h2>
-          </CardIconsDiv>
-        ) : (
-          <CardIconsDiv>
-            <OpenHeartIcon size={30} onClick={handlePostLike} />
-            <h2>{noOfLikes}</h2>
-          </CardIconsDiv>
-        )}
+          ) : (
+            <UnFilledHeartIcon size={30} onClick={handlePostLike} />
+          )}
+          <h2>{noOfLikes}</h2>
+        </LikeIconDiv>
+
         <CommentContainer>
-          <PostComment
+          <PostCommentInput
             value={comment}
             onChange={({ target }) => setComment(target.value)}
             placeholder="add a comment"
           />
-          <SubmitDetailsIcon
+          <CommentIcon
             onClick={comment.length > 0 ? handleCommentOnPost : null}
             comment={comment.length}
             size="24px"
           />
         </CommentContainer>
-      </CardContent>
-    </CardDiv>
+        <PostDescriptionStrong
+          style={{ color: "grey" }}
+          onClick={() => SetIsModalOpen(true)}
+        >
+          see all comments
+        </PostDescriptionStrong>
+        <ShowComments
+          isOpen={isModalOpen}
+          onRequestClose={() => SetIsModalOpen(false)}
+        >
+          {postComments.map(({ postedBy, text }, index) => (
+            <Comment key={index}>
+              <PostDescriptionStrong>{postedBy.name}</PostDescriptionStrong>
+              {text}
+            </Comment>
+          ))}
+        </ShowComments>
+      </PostContent>
+    </PostArticle>
   );
 }
 

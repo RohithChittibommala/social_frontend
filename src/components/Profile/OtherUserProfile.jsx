@@ -18,14 +18,17 @@ import {
 } from "./ProfileElements";
 import { Store } from "../state/Store";
 import { updateUserData, userLoggedIn } from "../state/actionTypes";
+
 const OtherUserProfile = () => {
   const [state, dispatch] = useContext(Store);
   const { user } = state;
   const { id } = useParams();
   console.log(user);
   const [userProfile, setUserProfile] = useState({});
-  const [isUserFollowed, setIsUserFollowed] = useState();
+  const [isUserFollowed, setIsUserFollowed] = useState(false);
   // if (user?.following?.includes(id)) setIsUserFollowed(true);
+
+  console.log(user?.following);
   useEffect(() => {
     if (id) {
       fetch(`http://localhost:4000/users/${id}`, {
@@ -36,11 +39,14 @@ const OtherUserProfile = () => {
       })
         .then((responseJSON) => responseJSON.json())
         .then((res) => {
+          console.log(res);
           setUserProfile(res);
-          if (user?.following?.includes(id)) setIsUserFollowed(true);
+          console.log(res.user.followers);
+          if (res.user.followers.some((u) => u._id === user._id))
+            setIsUserFollowed(true);
         });
     }
-  }, [id]);
+  }, [id, user?.following, user._id]);
 
   const handleUserFollow = async () => {
     const resJSON = await fetch("http://localhost:4000/users/follow", {
@@ -52,9 +58,11 @@ const OtherUserProfile = () => {
       body: JSON.stringify({ id }),
     });
     const res = await resJSON.json();
+    console.log(res);
     if (!res.error) {
       setUserProfile((prev) => ({ ...prev, user: res.followingUser }));
-      dispatch(userLoggedIn(res.followerUser));
+      dispatch(updateUserData(res.followerUser));
+
       setIsUserFollowed(true);
     }
   };
@@ -68,6 +76,7 @@ const OtherUserProfile = () => {
       body: JSON.stringify({ id }),
     });
     const res = await resJSON.json();
+    console.log(res);
     if (!res.error) {
       setUserProfile((prev) => ({ ...prev, user: res.followingUser }));
       dispatch(updateUserData(res.followerUser));

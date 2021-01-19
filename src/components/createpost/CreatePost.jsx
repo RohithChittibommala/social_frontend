@@ -16,11 +16,11 @@ import {
 } from "./CreateElements";
 function Create() {
   const history = useHistory();
-  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [imageFile, setImageFile] = useState("");
   const [state, dispatch] = useContext(Store);
+
   const handleImageUpload = (e) => {
     const { target } = e;
     const { files } = target;
@@ -29,8 +29,9 @@ function Create() {
     const imageUrl = URL.createObjectURL(uploadedImage);
     setImage(imageUrl);
   };
+
   const postData = async () => {
-    if (!image) createNewPost();
+    if (!image) return createNewPost();
     const data = new FormData();
     data.append("file", imageFile);
     data.append("upload_preset", "social-app");
@@ -49,6 +50,7 @@ function Create() {
       //// handle errpr
     }
   };
+
   const createNewPost = async (url) => {
     try {
       const responseJSON = await fetch(
@@ -59,7 +61,7 @@ function Create() {
             "Content-Type": "application/json",
             Authorization: `Bearer:${localStorage.getItem("jwt")}`,
           },
-          body: JSON.stringify({ url, title, description }),
+          body: JSON.stringify({ description, url }),
         }
       );
       const data = await responseJSON.json();
@@ -74,20 +76,15 @@ function Create() {
       console.error(error);
     }
   };
+
+  console.log(description.length);
   return (
     <CreatePostDiv>
-      <InputContainer>
-        <InputLabel>Title</InputLabel>
-        <CreatePostInput
-          onChange={({ target }) => setTitle(target.value)}
-          type={"text"}
-          placeholder={"Enter Title"}
-        />
-      </InputContainer>
       <InputContainer>
         <InputLabel>Description</InputLabel>
         <PostDescription
           placeholder="Enter the post description"
+          value={description}
           onChange={({ target }) => setDescription(target.value)}
           cols="37"
           rows="5"
@@ -102,7 +99,12 @@ function Create() {
         />
       </InputContainer>
 
-      <SubmitButton onClick={postData}>Submit</SubmitButton>
+      <SubmitButton
+        disabled={description.length > 0 ? false : true}
+        onClick={postData}
+      >
+        Submit
+      </SubmitButton>
     </CreatePostDiv>
   );
 }

@@ -12,8 +12,14 @@ import {
   ProfileStatNum,
   ProfileStatsDiv,
   Wrapper,
-  SubmitButton,
-  CreatePostInput,
+  ModalTitle,
+  ProfileNameDiv,
+  EditProfileButton,
+  ShowFollowersAndFollowing,
+  ModalUserImage,
+  ModalItem,
+  ModalUserName,
+  ModalUserImageDiv,
 } from "./ProfileElements";
 import { Store } from "../state/Store";
 import { toast } from "react-toastify";
@@ -24,18 +30,39 @@ function Profile() {
   const history = useHistory();
   const [state, dispatch] = useContext(Store);
   const { userPosts: posts, user } = state;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalData, setModalData] = useState({ name: "", data: [] });
   const [imageFile, setImageFile] = useState("");
   const { followers, following } = user;
   useEffect(() => {
     if (!state.isAuthenicated) history.push("/login");
-  }, [posts, user, state.isAuthenicated]);
+  }, [posts, history, state.isAuthenicated]);
 
   const renderProfileStat = (number, title) => (
-    <ProfileStat>
+    <ProfileStat
+      onClick={
+        title !== "posts"
+          ? function () {
+              setModalData({ name: title, data: user[title] });
+              setIsModalOpen(true);
+            }
+          : null
+      }
+    >
       <ProfileStatNum>{number}</ProfileStatNum>
       {title}
     </ProfileStat>
   );
+
+  const renderModelItem = (imageUrl, name, id) => (
+    <ModalItem key={id}>
+      <ModalUserImageDiv>
+        <ModalUserImage src={imageUrl} />
+      </ModalUserImageDiv>
+      <ModalUserName to={`/profile/${id}`}>{name}</ModalUserName>
+    </ModalItem>
+  );
+
   const renderGalleryImageDiv = (src, key) => (
     <GalleryImageDiv key={key}>
       <GalleryImageOverlayDiv />
@@ -93,17 +120,12 @@ function Profile() {
       <Wrapper>
         <ImageDiv>
           <ProfileImage src={state?.user?.imageUrl} />
-          <div>
-            <CreatePostInput
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-            />
-            <SubmitButton onClick={postData}>Update</SubmitButton>
-          </div>
         </ImageDiv>
         <ProfileInfoDiv>
-          <ProfileName>{user.name}</ProfileName>
+          <ProfileNameDiv>
+            <ProfileName>{user.name}</ProfileName>
+            <EditProfileButton>Edit Profile</EditProfileButton>
+          </ProfileNameDiv>
           <ProfileStatsDiv>
             {renderProfileStat(posts.length, "posts")}
             {renderProfileStat(followers?.length, "followers")}
@@ -111,6 +133,20 @@ function Profile() {
           </ProfileStatsDiv>
         </ProfileInfoDiv>
       </Wrapper>
+      <ShowFollowersAndFollowing
+        style={{
+          overlay: {
+            backgroundColor: "rgba(63, 59, 59, 0.75)",
+          },
+        }}
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+      >
+        <ModalTitle>{modalData.name}</ModalTitle>
+        {modalData?.data?.map((user) =>
+          renderModelItem(user.imageUrl, user.name, user._id)
+        )}
+      </ShowFollowersAndFollowing>
       <GalleryWrapper>
         {posts.map((post, index) =>
           post.url ? renderGalleryImageDiv(post.url, index) : null

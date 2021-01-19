@@ -20,6 +20,7 @@ export const iconStyles = `
   background: #d1d1d1;
 `;
 export const Page = styled.div`
+  margin-top: 124px;
   display: flex;
 `;
 export const SideImageDiv = styled.div`
@@ -96,26 +97,42 @@ export const InputContainer = styled.div`
   align-items: center;
   right: -10px;
 `;
-export const Button = styled.div`
-  ${({ backgroundColor }) =>
-    backgroundColor ? `background:#ee9090` : `background:#528eb1`};
+export const Button = styled.button`
+  border: 4px solid orange;
   height: 45px;
   justify-content: center;
   align-items: center;
-  border-radius: 25px;
-  color: #fff;
+  border-radius: 4px;
+  color: orange;
   width: 200px;
-  cursor: pointer;
   margin-bottom: 10px;
+  cursor: pointer;
   display: flex;
-  transition: 1s all;
-  poaition: relative;
+  font-weight: 700;
+  position: relative;
   font-family: "Raleway", sans-serif;
-  transform: translateY(-2px);
   font-size: 21px;
+  transition: 0.4s linear;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: -1;
+    transition: transform 0.5s;
+    transform-origin: 0 0;
+    transition-timing-function: cubic-bezier(0.5, 1.64, 0.44, 0.71);
+    transform: scaleX(0);
+  }
   &:hover {
+    color: #fff;
     background-color: orange;
-    transform: translateY(2px);
+  }
+  &:hover::before {
+    transform: scaleX(1);
   }
 `;
 export const TextElement = styled.p`

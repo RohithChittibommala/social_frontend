@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Store } from "../state/Store";
 import { Link, useHistory } from "react-router-dom";
+
 import {
   Button,
   EmailIcon,
@@ -92,11 +93,8 @@ function Login() {
             />
             <TextElement>show password</TextElement>
           </div>
-
+          <Button onClick={handleUserLogin}>Login</Button>
           <InputContainer>
-            <Button backgroundColor={true} onClick={handleUserLogin}>
-              Login
-            </Button>
             <TextElement>
               New user? create account
               <IElement>

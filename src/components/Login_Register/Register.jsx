@@ -12,7 +12,6 @@ import {
   Page,
   PasswordIcon,
   SideImageDiv,
-  SubmitDetailsIcon,
   TextElement,
   UserIcon,
   ErrorText,

@@ -1,14 +1,30 @@
 import styled from "styled-components";
-const profileFont = `
-  font-family: "Dosis", sans-serif;
-`;
+import Modal from "react-modal";
+import { Link } from "react-router-dom";
 export const Wrapper = styled.div`
   display: flex;
   width: 62.5%;
   padding: 2% 1%;
   margin: 0 auto;
+  margin-top: 100px;
   border-bottom: 1px solid #dbdbdb;
 `;
+
+export const EditProfileButton = styled.button`
+  background-color: transparent;
+  color: #333;
+  outline: none;
+  border: 1px solid #616060;
+
+  border-radius: 6px;
+  padding: 6px;
+  cursor: pointer;
+  height: 35px;
+  transition: 0.5s ease-in all;
+  /* width: 90px; */
+  font-size: 15px;
+`;
+
 export const ImageDiv = styled.div`
   flex: 0.4;
   display: flex;
@@ -18,14 +34,65 @@ export const ImageDiv = styled.div`
   width: 160px;
   padding: 0% 1% 2%;
 `;
+
+export const ShowFollowersAndFollowing = styled(Modal)`
+  height: 400px;
+  width: 400px;
+  margin: 150px auto;
+  position: relative;
+  /* z-index: 5; */
+  /* position: absolute; */
+  padding: 15px 20px;
+  border-radius: 30px;
+  outline: none;
+  background: #fff;
+`;
+export const ModalTitle = styled.h2`
+  text-align: center;
+  position: relative;
+  margin: 0 auto;
+  /* left: 30px; */
+  padding: 6px 3px;
+  font-family: "Franklin Gothic Medium", sans-serif;
+  font-weight: lighter;
+  border-bottom: 1px solid #000;
+`;
 export const ProfileInfoDiv = styled.div`
   flex: 0.6;
-  ${profileFont};
   margin-left: 15px;
   font-size: 18px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+`;
+
+export const ModalItem = styled.div`
+  padding: 6px 8px;
+  height: 48px;
+  align-items: center;
+  border-bottom: 0.3px solid lightblue;
+  display: flex;
+`;
+export const ModalUserImage = styled.img`
+  width: 30px;
+  object-fit: "contain";
+  border-radius: 50%;
+`;
+export const ModalUserImageDiv = styled.div`
+  width: 30px;
+  height: 34px;
+`;
+export const ModalUserName = styled(Link)`
+  font-weight: bold;
+  font-size: 16px;
+  margin-left: 20px;
+  text-decoration: none;
+  color: #333;
+  font-family: "Montserrat";
+  cursor: pointer;
+  :hover {
+    text-decoration: underline;
+  }
 `;
 export const ProfileImage = styled.img`
   height: 180px;
@@ -34,31 +101,40 @@ export const ProfileImage = styled.img`
   width: 180px;
   border-radius: 50%;
 `;
+export const ProfileNameDiv = styled.div`
+  display: flex;
+  padding: 5px 12px;
+  width: 250px;
+  align-items: center;
+  justify-content: flex-start;
+`;
 export const ProfileName = styled.h1`
-  ${profileFont};
-  font-weight: 300;
-  margin-left: 150px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: lighter;
+  font-size: 30px;
+  padding: 2px;
+  /* margin-left: 150px; */
   color: #333;
+  margin-right: 25px;
 `;
 export const ProfileStatsDiv = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
 `;
 export const ProfileStat = styled.p`
   margin-right: 25px;
-  font-size: 16px;
-  font-family: "Noto Sans JP", sans-serif;
-  display: inline-block;
-  margin-left: 1px;
-  letter-spacing: 1px;
-  color: #1f2226;
+  font-weight: normal;
+  font-size: 19px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen;
+  color: #000;
+  cursor: pointer;
 `;
 export const ProfileStatNum = styled.span`
-  font-weight: bold;
-  font-size: 16px;
-  color: #000;
   margin-right: 10px;
-  font-family: "Noto Sans JP", sans-serif;
+  font-weight: bold;
+  font-size: 19px;
+  color: #000;
+  cursor: pointer;
 `;
 export const GalleryWrapper = styled.div`
   max-width: 970px;
