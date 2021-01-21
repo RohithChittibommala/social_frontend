@@ -45,7 +45,7 @@ function Card({
   const [noOfLikes, setNoOfLikes] = useState(likes.length);
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [comment, setComment] = useState("");
-  const [postComments, SetPostComments] = useState(comments);
+  const [postComments, setPostComments] = useState(comments);
   const confirmDelete = () => {
     confirmAlert({
       title: "Confirm Delete",
@@ -78,6 +78,10 @@ function Card({
   };
 
   const handleCommentOnPost = () => {
+    setPostComments((prev) => [
+      ...prev,
+      { postedBy: user.name, text: comment },
+    ]);
     fetch("http://localhost:4000/posts/comment", {
       method: "PUT",
       headers: {
@@ -85,7 +89,9 @@ function Card({
         Authorization: `Bearer:${localStorage.getItem("jwt")}`,
       },
       body: JSON.stringify({ postID: id, text: comment }),
-    }).then((res) => console.log(res.json()));
+    })
+      .then((res) => console.log(res.json()))
+      .catch(postComments.pop());
     setComment("");
   };
 
@@ -147,7 +153,7 @@ function Card({
         </PostDescription>
         <LikeIconDiv>
           {isPostLiked ? (
-            <FilledHeartIcon size={30} onClick={handlePostUnLike} />
+            <FilledHeartIcon color="red" size={30} onClick={handlePostUnLike} />
           ) : (
             <UnFilledHeartIcon size={30} onClick={handlePostLike} />
           )}
@@ -175,6 +181,11 @@ function Card({
         <ShowComments
           isOpen={isModalOpen}
           onRequestClose={() => SetIsModalOpen(false)}
+          style={{
+            overlay: {
+              backgroundColor: "rgba(63, 59, 59, 0.75)",
+            },
+          }}
         >
           {postComments.map(({ postedBy, text }, index) => (
             <Comment key={index}>

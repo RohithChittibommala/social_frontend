@@ -14,6 +14,7 @@ import {
   SubmitButton,
   UploadedImage,
 } from "./CreateElements";
+
 function Create() {
   const history = useHistory();
   const [description, setDescription] = useState("");
@@ -83,7 +84,7 @@ function Create() {
       <InputContainer>
         <InputLabel>Description</InputLabel>
         <PostDescription
-          placeholder="Enter the post description"
+          placeholder="Enter the post caption"
           value={description}
           onChange={({ target }) => setDescription(target.value)}
           cols="37"

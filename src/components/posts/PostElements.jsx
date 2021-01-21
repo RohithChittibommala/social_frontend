@@ -15,6 +15,8 @@ export const PostArticle = styled.article`
   background-color: #fff;
   margin-bottom: 60px;
   margin-left: 20%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid rgba(213, 219, 213, 0.5);
   margin-right: 20%;
 `;
 export const PostImageDiv = styled.div`
@@ -29,11 +31,7 @@ export const PostImage = styled.img`
   width: 100%;
 `;
 export const PostHeader = styled.header`
-  /* display: flex;
-  height: 60px;
-  align-items: center;
-  background: #fff;
-  padding: 12px; */
+  border-bottom: 1px solid rgba(239, 239, 239, 1);
 `;
 
 export const PostUser = styled.div`
@@ -95,18 +93,15 @@ export const LikeIconDiv = styled.div`
   margin: 15px 0;
   align-items: center;
   /* height: 50px; */
-  position: relative;
+  /* position: relative; */
 `;
 export const OpenHeartIcon = styled(AiOutlineHeart)`
   color: black;
-  position: relative;
   margin-right: 10px;
   cursor: pointer;
 `;
 export const FilledHeartIcon = styled(AiFillHeart)`
-  color: red;
-  position: relative;
-  /* top: 10px; */
+  color: ${({ color }) => color || "#FFF"};
   display: block;
   margin-right: 10px;
   cursor: pointer;
@@ -115,7 +110,7 @@ export const CommentContainer = styled.div`
   display: flex;
   margin: 10px 0;
   padding: 16px 0px;
-  border-top: 0.6px solid #b8e1ee;
+  border-bottom: 1px solid rgba(239, 239, 239, 1);
 `;
 export const CommentIcon = styled(AiOutlineSend)`
   margin-right: 10px;

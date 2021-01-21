@@ -70,7 +70,7 @@ export const ModalItem = styled.div`
   padding: 6px 8px;
   height: 48px;
   align-items: center;
-  border-bottom: 0.3px solid lightblue;
+  border-bottom: 1px solid rgba(239, 239, 239, 1);
   display: flex;
 `;
 export const ModalUserImage = styled.img`
@@ -145,10 +145,31 @@ export const GalleryWrapper = styled.div`
 `;
 export const GalleryImageDiv = styled.div`
   width: 290px;
-  height: 290px;
+  height: auto;
   margin: 10px;
   position: relative;
   cursor: pointer;
+`;
+
+export const GalleryImageLikesContainer = styled.div`
+  display: flex;
+  position: absolute;
+  z-index: 5;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+export const GalleryImageLikes = styled.h1`
+  font-size: 24px;
+  color: #fff;
+  font-family: "Acme", sans-serif;
+  font-weight: 100;
 `;
 export const GalleryImageOverlayDiv = styled.div`
   width: 100%;

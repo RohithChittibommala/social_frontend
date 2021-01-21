@@ -20,12 +20,15 @@ import {
   ModalItem,
   ModalUserName,
   ModalUserImageDiv,
+  GalleryImageLikes,
+  GalleryImageLikesContainer,
 } from "./ProfileElements";
 import { Store } from "../state/Store";
 import { toast } from "react-toastify";
 import { toastEmmiterOptions } from "../../utils/toastSettings";
 import { updateUserData } from "../state/actionTypes";
 import { useHistory } from "react-router-dom";
+import { FilledHeartIcon } from "../posts/PostElements";
 function Profile() {
   const history = useHistory();
   const [state, dispatch] = useContext(Store);
@@ -63,10 +66,15 @@ function Profile() {
     </ModalItem>
   );
 
-  const renderGalleryImageDiv = (src, key) => (
+  const renderGalleryImageDiv = (post, key) => (
     <GalleryImageDiv key={key}>
-      <GalleryImageOverlayDiv />
-      <GalleryImage src={src} />
+      <GalleryImageOverlayDiv>
+        <GalleryImageLikesContainer>
+          <FilledHeartIcon size={22} />
+          <GalleryImageLikes>{post.likes.length}</GalleryImageLikes>
+        </GalleryImageLikesContainer>
+      </GalleryImageOverlayDiv>
+      <GalleryImage src={post.url} />
     </GalleryImageDiv>
   );
   const handleImageUpload = (e) => {
@@ -149,7 +157,7 @@ function Profile() {
       </ShowFollowersAndFollowing>
       <GalleryWrapper>
         {posts.map((post, index) =>
-          post.url ? renderGalleryImageDiv(post.url, index) : null
+          post.url ? renderGalleryImageDiv(post, index) : null
         )}
       </GalleryWrapper>
     </div>
