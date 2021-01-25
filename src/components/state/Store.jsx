@@ -5,6 +5,7 @@ export const intialState = {
   posts: [],
   userPosts: [],
   isAuthenicated: false,
+  otherFetchedUsers: {},
 };
 export const Store = createContext(intialState);
 

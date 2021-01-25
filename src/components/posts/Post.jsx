@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import { Store } from "../state/Store";
-
 import {
   Comment,
   PostContent,
@@ -28,6 +27,7 @@ import {
   ShowComments,
 } from "./PostElements";
 import { deletePost } from "../state/actionTypes";
+import { ModalTitle } from "../Profile/ProfileElements";
 ShowComments.setAppElement("#root");
 function Card({
   description,
@@ -38,12 +38,13 @@ function Card({
   userId,
   imageUrl,
   comments,
+  createdAt,
 }) {
   const [state, dispatch] = useContext(Store);
   const { user } = state;
   const [isPostLiked, setIsPostLiked] = useState(likes.includes(user._id));
   const [noOfLikes, setNoOfLikes] = useState(likes.length);
-  const [isModalOpen, SetIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [postComments, setPostComments] = useState(comments);
   const confirmDelete = () => {
@@ -77,21 +78,17 @@ function Card({
       .catch((err) => console.error(err));
   };
 
-  const handleCommentOnPost = () => {
-    setPostComments((prev) => [
-      ...prev,
-      { postedBy: user.name, text: comment },
-    ]);
-    fetch("http://localhost:4000/posts/comment", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer:${localStorage.getItem("jwt")}`,
-      },
-      body: JSON.stringify({ postID: id, text: comment }),
-    })
-      .then((res) => console.log(res.json()))
-      .catch(postComments.pop());
+  const handleCommentOnPost = async () => {
+    try {
+      fetch("http://localhost:4000/posts/comment", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer:${localStorage.getItem("jwt")}`,
+        },
+        body: JSON.stringify({ postID: id, text: comment }),
+      });
+    } catch (error) {}
     setComment("");
   };
 
@@ -174,19 +171,20 @@ function Card({
         </CommentContainer>
         <PostDescriptionStrong
           style={{ color: "grey" }}
-          onClick={() => SetIsModalOpen(true)}
+          onClick={() => setIsModalOpen(true)}
         >
           see all comments
         </PostDescriptionStrong>
         <ShowComments
           isOpen={isModalOpen}
-          onRequestClose={() => SetIsModalOpen(false)}
+          onRequestClose={() => setIsModalOpen(false)}
           style={{
             overlay: {
               backgroundColor: "rgba(63, 59, 59, 0.75)",
             },
           }}
         >
+          <ModalTitle>Comments</ModalTitle>
           {postComments.map(({ postedBy, text }, index) => (
             <Comment key={index}>
               <PostDescriptionStrong>{postedBy.name}</PostDescriptionStrong>

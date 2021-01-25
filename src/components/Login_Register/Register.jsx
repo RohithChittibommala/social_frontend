@@ -26,6 +26,7 @@ function Register() {
   const [errors, SetErrors] = useState({});
   const history = useHistory();
   const handleUserRegister = async () => {
+    SetErrors({});
     try {
       const responseJSON = await fetch("http://localhost:4000/signup", {
         method: "POST",

@@ -3,11 +3,13 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import App from "./App";
-
+import { StoreProvider } from "./components/state/Store";
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <StoreProvider>
+        <App />
+      </StoreProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

@@ -6,13 +6,18 @@ import {
   FETCHED_USER_POSTS,
   DELETE_POST,
   UPDATE_USER_DATA,
+  ADD_FETCHED_USER_DATA,
 } from "./actionTypes";
 import { intialState } from "./Store";
 
 export const reducer = (state, action) => {
   switch (action.type) {
     case USER_LOGGED_IN:
-      return { ...state, user: action.payload, isAuthenicated: true };
+      return {
+        ...state,
+        user: action.payload,
+        isAuthenicated: action.payload.isVerified,
+      };
     case ADD_POST:
       return {
         ...state,
@@ -35,6 +40,15 @@ export const reducer = (state, action) => {
       };
     case UPDATE_USER_DATA:
       return { ...state, user: action.payload };
+    case ADD_FETCHED_USER_DATA:
+      console.log(action.payload);
+      return {
+        ...state,
+        otherFetchedUsers: {
+          ...state.otherFetchedUsers,
+          [action.payload.id]: action.payload.data,
+        },
+      };
     default:
       return state;
   }

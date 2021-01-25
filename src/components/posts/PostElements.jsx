@@ -69,6 +69,7 @@ export const PostDescription = styled.div`
 export const PostDescriptionStrong = styled.strong`
   margin-right: 10px;
   font-weight: bold;
+  padding: 0 6px;
   font-size: 19px;
   color: #000;
   cursor: pointer;

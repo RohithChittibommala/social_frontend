@@ -25,7 +25,16 @@ function Home() {
   return (
     <div style={{ margin: "0 auto", width: "935px", padding: "108px 0" }}>
       {posts.map(
-        ({ _id, title, description, url, likes, postedBy, comments }) => (
+        ({
+          _id,
+          title,
+          description,
+          url,
+          likes,
+          postedBy,
+          comments,
+          createdAt,
+        }) => (
           <Post
             key={_id}
             id={_id}
@@ -37,6 +46,7 @@ function Home() {
             userId={postedBy?._id}
             imageUrl={postedBy?.imageUrl}
             comments={comments}
+            createdAt={createdAt}
           />
         )
       )}

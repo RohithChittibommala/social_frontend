@@ -7,17 +7,18 @@ import {
   AiOutlineUser,
   AiOutlineArrowRight,
 } from "react-icons/ai";
+import Modal from "react-modal";
 import { BiKey } from "react-icons/bi";
 export const iconStyles = `
 
   color: black;
   position: absolute;
   top: 10px;
-  z-index:12;
+  // z-index:2;
   margin-right:10px;
   left: 10px;
   display: block;
-  background: #d1d1d1;
+  // background: #d1d1d1;
 `;
 export const Page = styled.div`
   margin-top: 124px;
@@ -29,6 +30,7 @@ export const SideImageDiv = styled.div`
 export const LoginDiv = styled.div`
   display: grid;
   place-items: center;
+  position: relative;
   width: 50%;
 `;
 export const LoginImage = styled.img`
@@ -137,8 +139,10 @@ export const Button = styled.button`
 `;
 export const TextElement = styled.p`
   font-size: 16px;
+  cursor: ${({ color }) => (color ? "pointer" : null)};
+  margin: 10px 0;
   font-family: "Raleway", sans-serif;
-  color: black;
+  color: ${({ color }) => (color ? color : "black")};
 `;
 export const IElement = styled.i`
   font-style: bolder;
@@ -154,4 +158,38 @@ export const ErrorText = styled.p`
   align-self: flex-start;
   font-family: "Raleway", sans-serif;
   color: red;
+`;
+
+export const ForgotPasswordModal = styled(Modal)`
+  width: 600px;
+  height: 150px;
+  background-color: #fff;
+  outline: none;
+  z-index: 45;
+  top: 300px;
+  left: 450px;
+  border-radius: 25px;
+  padding: 12px;
+  position: relative;
+`;
+
+export const ForgotPasswordEmailInput = styled.input`
+  display: block;
+  font-size: 18px;
+  padding: 6px;
+  width: 80%;
+  margin: 10px 4px; ;
+`;
+export const ForgotEmailInputContainer = styled.div`
+  display: flex;
+`;
+
+export const ForgotPasswordSubmitButton = styled.button`
+  width: 80px;
+  height: 40px;
+  background-color: #000;
+  margin: auto;
+  color: #fff;
+  cursor: pointer;
+  /* padding: 9px 6px; ; */
 `;

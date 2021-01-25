@@ -5,6 +5,7 @@ export const LOGOUT = "LOGOUT";
 export const FETCHED_USER_POSTS = "FETCHED_USER_POSTS";
 export const DELETE_POST = "DELETE_POST";
 export const UPDATE_USER_DATA = "UPDATE_USER_DATA";
+export const ADD_FETCHED_USER_DATA = "ADD_OTHER_USER_DATA";
 
 export const userLoggedIn = (payload) => ({
   type: USER_LOGGED_IN,
@@ -37,5 +38,10 @@ export const deletePost = (payload) => ({
 
 export const updateUserData = (payload) => ({
   type: UPDATE_USER_DATA,
+  payload,
+});
+
+export const addOtherUserData = (payload) => ({
+  type: ADD_FETCHED_USER_DATA,
   payload,
 });

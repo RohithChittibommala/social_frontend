@@ -41,17 +41,13 @@ function Profile() {
     if (!state.isAuthenicated) history.push("/login");
   }, [posts, history, state.isAuthenicated]);
 
+  const handleProfileStat = (title) => {
+    if (title !== "posts") setModalData({ name: title, data: user[title] });
+    setIsModalOpen(true);
+  };
+
   const renderProfileStat = (number, title) => (
-    <ProfileStat
-      onClick={
-        title !== "posts"
-          ? function () {
-              setModalData({ name: title, data: user[title] });
-              setIsModalOpen(true);
-            }
-          : null
-      }
-    >
+    <ProfileStat onClick={() => handleProfileStat(title)}>
       <ProfileStatNum>{number}</ProfileStatNum>
       {title}
     </ProfileStat>
