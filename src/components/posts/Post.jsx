@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { confirmAlert } from "react-confirm-alert";
 import { Store } from "../state/Store";
 import {
   Comment,
@@ -24,11 +23,23 @@ import {
   PostImageBackground,
   PostUserImage,
   PostDescriptionStrong,
-  ShowComments,
+  ShowCommentsModal,
+  ConformDeleteModal,
+  ButtonContainer,
 } from "./PostElements";
-import { deletePost } from "../state/actionTypes";
-import { ModalTitle } from "../Profile/ProfileElements";
-ShowComments.setAppElement("#root");
+import {
+  deletePost,
+  updatePostData,
+  updateUserPost,
+} from "../state/actionCreators";
+import {
+  FollowButton,
+  ModalStyles,
+  ModalTitle,
+} from "../Profile/ProfileElements";
+import { toast } from "react-toastify";
+import { toastEmmiterOptions } from "../../utils/toastSettings";
+ShowCommentsModal.setAppElement("#root");
 function Card({
   description,
   url,
@@ -38,35 +49,20 @@ function Card({
   userId,
   imageUrl,
   comments,
-  createdAt,
 }) {
   const [state, dispatch] = useContext(Store);
   const { user } = state;
-  const [isPostLiked, setIsPostLiked] = useState(likes.includes(user._id));
+  const [isPostLiked, setIsPostLiked] = useState(likes?.includes(user._id));
   const [noOfLikes, setNoOfLikes] = useState(likes.length);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [comment, setComment] = useState("");
+  const [isDelModalOpen, setIsDelModalOpen] = useState(false);
   const [postComments, setPostComments] = useState(comments);
-  const confirmDelete = () => {
-    confirmAlert({
-      title: "Confirm Delete",
-      message: "Are you sure to delete this",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => hanldePostDelete(),
-        },
-        {
-          label: "No",
-          onClick: () => alert("Not deleted"),
-        },
-      ],
-    });
-  };
+
   const handlePostLike = () => {
     setNoOfLikes((prev) => prev + 1);
     setIsPostLiked((prev) => !prev);
-    fetch("http://localhost:4000/posts/like", {
+    fetch(`${process.env.REACT_APP_API_URL}/posts/like`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -74,28 +70,45 @@ function Card({
       },
       body: JSON.stringify({ postID: id }),
     })
-      .then((res) => console.log(res.json()))
+      .then((res) => res.json())
+      .then((updatedPost) => {
+        dispatch(updatePostData(updatedPost));
+        if (user._id === updatedPost.postedBy?._id)
+          dispatch(updateUserPost(updatedPost));
+      })
       .catch((err) => console.error(err));
   };
 
   const handleCommentOnPost = async () => {
     try {
-      fetch("http://localhost:4000/posts/comment", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer:${localStorage.getItem("jwt")}`,
-        },
-        body: JSON.stringify({ postID: id, text: comment }),
-      });
-    } catch (error) {}
+      setPostComments((prev) => [
+        ...prev,
+        { postedBy: { _id: user._id, name: user.name }, text: comment },
+      ]);
+      const updatedPostJson = await fetch(
+        `${process.env.REACT_APP_API_URL}/posts/comment`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer:${localStorage.getItem("jwt")}`,
+          },
+          body: JSON.stringify({ postID: id, text: comment }),
+        }
+      );
+      const updatedPost = await updatedPostJson.json();
+      console.log(updatedPost);
+      dispatch(updatePostData(updatedPost));
+    } catch (error) {
+      toast.error("oops please try after some time", toastEmmiterOptions);
+    }
     setComment("");
   };
 
   const handlePostUnLike = () => {
     setNoOfLikes((prev) => prev - 1);
     setIsPostLiked((prev) => !prev);
-    fetch("http://localhost:4000/posts/unlike", {
+    fetch(`${process.env.REACT_APP_API_URL}/posts/unlike`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -103,12 +116,17 @@ function Card({
       },
       body: JSON.stringify({ postID: id }),
     })
-      .then((res) => console.log(res.json()))
+      .then((res) => res.json())
+      .then((updatedPost) => {
+        dispatch(updatePostData(updatedPost));
+        if (user._id === updatedPost.postedBy?._id)
+          dispatch(updateUserPost(updatedPost));
+      })
       .catch((err) => console.error(err));
   };
 
   const hanldePostDelete = () => {
-    fetch(`http://localhost:4000/posts/delete/${id}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/posts/delete/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer:${localStorage.getItem("jwt")}`,
@@ -132,7 +150,9 @@ function Card({
             </PostUserName>
           </PostUserNameDiv>
           {user._id === userId && (
-            <DeleteText onClick={confirmDelete}>Delete</DeleteText>
+            <DeleteText onClick={() => setIsDelModalOpen(true)}>
+              Delete
+            </DeleteText>
           )}
         </PostUser>
       </PostHeader>
@@ -175,14 +195,10 @@ function Card({
         >
           see all comments
         </PostDescriptionStrong>
-        <ShowComments
+        <ShowCommentsModal
           isOpen={isModalOpen}
           onRequestClose={() => setIsModalOpen(false)}
-          style={{
-            overlay: {
-              backgroundColor: "rgba(63, 59, 59, 0.75)",
-            },
-          }}
+          style={ModalStyles}
         >
           <ModalTitle>Comments</ModalTitle>
           {postComments.map(({ postedBy, text }, index) => (
@@ -191,7 +207,20 @@ function Card({
               {text}
             </Comment>
           ))}
-        </ShowComments>
+        </ShowCommentsModal>
+        <ConformDeleteModal
+          isOpen={isDelModalOpen}
+          onRequestClose={() => setIsDelModalOpen(false)}
+          style={ModalStyles}
+        >
+          <h3>Are you sure you want to delete the post</h3>
+          <ButtonContainer>
+            <FollowButton onClick={hanldePostDelete}>Yes</FollowButton>
+            <FollowButton onClick={() => setIsDelModalOpen(false)}>
+              No
+            </FollowButton>
+          </ButtonContainer>
+        </ConformDeleteModal>
       </PostContent>
     </PostArticle>
   );

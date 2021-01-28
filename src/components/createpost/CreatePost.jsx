@@ -1,8 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toastEmmiterOptions } from "../../utils/toastSettings";
-import { addNewPost } from "../state/actionTypes";
+import { addNewPost } from "../state/actionCreators";
 import { Store } from "../state/Store";
 
 import {
@@ -21,6 +21,12 @@ function Create() {
   const [image, setImage] = useState(null);
   const [imageFile, setImageFile] = useState("");
   const [state, dispatch] = useContext(Store);
+  const [submitBtnDisabled, setSubmitBtnDisabled] = useState(false);
+
+  useEffect(() => {
+    if (!state.isAuthenicated) history.push("/login");
+    console.log(state.isAuthenicated);
+  }, [state.isAuthenicated, history]);
 
   const handleImageUpload = (e) => {
     const { target } = e;
@@ -32,14 +38,15 @@ function Create() {
   };
 
   const postData = async () => {
+    setSubmitBtnDisabled(true);
     if (!image) return createNewPost();
     const data = new FormData();
     data.append("file", imageFile);
-    data.append("upload_preset", "social-app");
-    data.append("cloud_name", "rohith");
+    data.append("upload_preset", `${process.env.REACT_APP_UPLOAD_PRESET}`);
+    data.append("cloud_name", `${process.env.REACT_APP_CLOUD_NAME}`);
     try {
       const responseJSON = await fetch(
-        "https://api.cloudinary.com/v1_1/rohith/image/upload",
+        `${process.env.REACT_APP_CLOUDINARY_URL}`,
         {
           method: "POST",
           body: data,
@@ -55,7 +62,7 @@ function Create() {
   const createNewPost = async (url) => {
     try {
       const responseJSON = await fetch(
-        "http://localhost:4000/posts/createpost",
+        ` ${process.env.REACT_APP_API_URL}/posts/createpost`,
         {
           method: "POST",
           headers: {
@@ -69,8 +76,8 @@ function Create() {
       console.log(data);
       if (data.error) toast.error(`${data.error}`, toastEmmiterOptions);
       else {
-        toast.success("successfully post uploaded", toastEmmiterOptions);
         dispatch(addNewPost(data));
+        toast.success("successfully post uploaded", toastEmmiterOptions);
         history.push("/");
       }
     } catch (error) {
@@ -101,7 +108,7 @@ function Create() {
       </InputContainer>
 
       <SubmitButton
-        disabled={description.length > 0 ? false : true}
+        disabled={description.length <= 0 || submitBtnDisabled ? true : false}
         onClick={postData}
       >
         Submit

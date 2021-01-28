@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Button,
   EmailIcon,
@@ -18,27 +18,37 @@ import {
 } from "./LoginElements";
 import registerImageurl from "./assets/register.svg";
 import { Link, useHistory } from "react-router-dom";
+import { Store } from "../state/Store";
 function Register() {
+  const [state] = useContext(Store);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [showPassword, SetShowPassword] = useState(false);
-  const [errors, SetErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({});
   const history = useHistory();
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
   const handleUserRegister = async () => {
-    SetErrors({});
+    setErrors({});
     try {
-      const responseJSON = await fetch("http://localhost:4000/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
+      const responseJSON = await fetch(
+        `${process.env.REACT_APP_API_URL}/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, password }),
+        }
+      );
       const data = await responseJSON.json();
       if (data.errors) populateErrorMessages(data.errors);
       else if (data.userExist)
-        SetErrors((prevState) => ({ ...prevState, email: data.userExist }));
+        setErrors((prevState) => ({ ...prevState, email: data.userExist }));
       else history.push("/login");
     } catch (error) {
       console.error(error);
@@ -47,7 +57,7 @@ function Register() {
   const populateErrorMessages = (registerErrors) => {
     registerErrors.forEach(({ param, msg }) => {
       console.log(msg, param);
-      SetErrors((prevState) => ({
+      setErrors((prevState) => ({
         ...prevState,
         [param]: msg,
       }));
@@ -97,7 +107,7 @@ function Register() {
           <div className="password-checkbox">
             <input
               type="checkbox"
-              onChange={() => SetShowPassword((prev) => !prev)}
+              onChange={() => setShowPassword((prev) => !prev)}
             />
             <TextElement>show password</TextElement>
           </div>

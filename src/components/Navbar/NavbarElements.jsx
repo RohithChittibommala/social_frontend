@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components";
 import { NavLink as Link } from "react-router-dom";
-import fonts from "../../utils/fonts";
 const transitionEffect = css`
   transition: all 0.3s ease-in-out;
 `;
@@ -27,7 +26,6 @@ export const NavLink = styled(Link)`
   text-decoration: none;
   display: flex;
   align-items: center;
-  ${fonts.ralewayFont};
   font-size: 20px;
   text-transform: capitalize;
   padding: 0 1rem;

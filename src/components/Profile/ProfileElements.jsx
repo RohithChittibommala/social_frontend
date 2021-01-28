@@ -35,17 +35,37 @@ export const ImageDiv = styled.div`
   padding: 0% 1% 2%;
 `;
 
-export const ShowFollowersAndFollowing = styled(Modal)`
+export const ShowFollowersAndFollowingModal = styled(Modal)`
   height: 400px;
   width: 400px;
   margin: 150px auto;
   position: relative;
-  /* z-index: 5; */
-  /* position: absolute; */
   padding: 15px 20px;
   border-radius: 30px;
   outline: none;
   background: #fff;
+`;
+export const EditProfileOptionsModal = styled(Modal)`
+  height: auto;
+  width: 400px;
+  margin: 150px auto;
+  position: relative;
+  padding: 15px 20px;
+  border-radius: 12px;
+  outline: none;
+  background: #fff;
+`;
+export const EditProfileOption = styled.h1`
+  color: #ed4956;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-bottom: 1px solid #dbdbdb;
+  line-height: 1.5;
+  min-height: 48px;
+  vertical-align: middle;
+  font-size: 16px;
+  padding: 12px;
+  text-align: center;
 `;
 export const ModalTitle = styled.h2`
   text-align: center;
@@ -104,7 +124,7 @@ export const ProfileImage = styled.img`
 export const ProfileNameDiv = styled.div`
   display: flex;
   padding: 5px 12px;
-  width: 250px;
+  /* width: 250px; */
   align-items: center;
   justify-content: flex-start;
 `;
@@ -248,4 +268,34 @@ export const CreatePostInput = styled.input`
   &:focus {
     border: 1px solid blue;
   }
+`;
+export const ModalStyles = {
+  overlay: {
+    backgroundColor: "rgba(63, 59, 59, 0.75)",
+  },
+};
+
+export const UpdateProfilePicModal = styled(Modal)`
+  height: auto;
+  width: 400px;
+  margin: 150px auto;
+  position: relative;
+  padding: 15px 20px;
+  border-radius: 30px;
+  outline: none;
+  background: #fff;
+`;
+export const UpdatePasswordModal = styled(Modal)`
+  height: 200px;
+  width: 400px;
+  margin: 150px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  position: relative;
+  padding: 15px 20px;
+  border-radius: 30px;
+  outline: none;
+  background: #fff;
 `;

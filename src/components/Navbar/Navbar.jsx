@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { logoutUser } from "../state/actionTypes";
+import { logoutUser } from "../state/actionCreators";
 import { Store } from "../state/Store";
 import { Nav, NavLink, NavMenu, NavButton, Logo } from "./NavbarElements";
 function Navbar() {
@@ -8,8 +8,9 @@ function Navbar() {
   const [state, dispatch] = useContext(Store);
   const { isAuthenicated } = state;
   const handleUserLogout = () => {
-    history.push("/login");
+    localStorage.clear();
     dispatch(logoutUser());
+    setTimeout(history.push("/login"), 1000);
   };
   useEffect(() => {}, [isAuthenicated]);
   return (

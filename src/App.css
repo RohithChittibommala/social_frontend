@@ -35,3 +35,13 @@ input[type="checkbox"] {
   align-items: center;
   flex-direction: row;
 }
+
+.infinite-scroll {
+  margin: 0 auto;
+  width: 935px;
+  padding: 108px 0;
+}
+
+.css-9ebb9a {
+  margin: 48%;
+}

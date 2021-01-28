@@ -57,11 +57,9 @@ const ResetPassword = () => {
   const token = useParams();
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  console.log(token);
-
   const handlePasswordChange = async () => {
     try {
-      const resJSON = await fetch(`http://localhost:4000/reset/`, {
+      const resJSON = await fetch(`${process.env.REACT_APP_API_URL}/reset/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,10 +67,13 @@ const ResetPassword = () => {
         body: JSON.stringify({ token: token.id, password }),
       });
       const res = await resJSON.json();
-
-      if (res.error) toast.error(res.error, toastEmmiterOptions);
-      else toast.success(res.msg, toastEmmiterOptions);
-      history.push("/");
+      if (res.error) {
+        toast.error(res.error, toastEmmiterOptions);
+        history.push("/login");
+      } else {
+        toast.success(res.msg, toastEmmiterOptions);
+        history.push("/");
+      }
     } catch (error) {}
   };
 

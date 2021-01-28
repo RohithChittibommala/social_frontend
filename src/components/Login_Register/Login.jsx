@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Store } from "../state/Store";
 import { Link, useHistory } from "react-router-dom";
 
@@ -25,8 +25,7 @@ import {
 import loginImageurl from "./assets/login.svg";
 import { toast } from "react-toastify";
 import { toastEmmiterOptions } from "../../utils/toastSettings";
-import Toast from "../Toasts/Toast.jsx";
-import { userLoggedIn } from "../state/actionTypes";
+import { userLoggedIn } from "../state/actionCreators";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -37,15 +36,23 @@ function Login() {
   const [errors, setErrors] = useState({});
   const history = useHistory();
   const [state, dispatch] = useContext(Store);
+  console.log(state);
+  useEffect(() => {
+    localStorage.clear();
+  }, [state]);
+
   const handleUserLogin = async () => {
     try {
-      const responseJSON = await fetch("http://localhost:4000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const responseJSON = await fetch(
+        `${process.env.REACT_APP_API_URL}/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
       const data = await responseJSON.json();
 
       if (data.password)
@@ -53,6 +60,8 @@ function Login() {
       else if (data.userExist)
         setErrors((prevState) => ({ ...prevState, email: data.userExist }));
       else if (data.user) {
+        console.log("this is called");
+
         if (!data.user.isVerified) {
           toast.error(
             "Please click the link that is send to your email address",
@@ -73,7 +82,7 @@ function Login() {
 
   const handleForgotPassword = () => {
     setForgotEmail("");
-    fetch("http://localhost:4000/forgot", {
+    fetch(`${process.env.REACT_APP_API_URL}/forgot`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

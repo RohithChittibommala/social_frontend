@@ -1,47 +1,11 @@
 export const ADD_POST = "ADD_POST";
 export const USER_LOGGED_IN = "USER_LOGGED_IN";
+export const DELETE_POST = "DELETE_POST";
 export const FETCHED_POSTS = "FETCHED_POSTS";
 export const LOGOUT = "LOGOUT";
 export const FETCHED_USER_POSTS = "FETCHED_USER_POSTS";
-export const DELETE_POST = "DELETE_POST";
-export const UPDATE_USER_DATA = "UPDATE_USER_DATA";
-export const ADD_FETCHED_USER_DATA = "ADD_OTHER_USER_DATA";
-
-export const userLoggedIn = (payload) => ({
-  type: USER_LOGGED_IN,
-  payload,
-});
-
-export const fetchedPosts = (payload) => ({
-  type: FETCHED_POSTS,
-  payload,
-});
-
-export const logoutUser = () => ({
-  type: LOGOUT,
-});
-
-export const fetchedUserPosts = (payload) => ({
-  type: FETCHED_USER_POSTS,
-  payload,
-});
-
-export const addNewPost = (payload) => ({
-  type: ADD_POST,
-  payload,
-});
-
-export const deletePost = (payload) => ({
-  type: DELETE_POST,
-  payload,
-});
-
-export const updateUserData = (payload) => ({
-  type: UPDATE_USER_DATA,
-  payload,
-});
-
-export const addOtherUserData = (payload) => ({
-  type: ADD_FETCHED_USER_DATA,
-  payload,
-});
+export const UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";
+export const UPDATE_POST_DATA = "UPDATE_POST_DATA";
+export const UPDATE_POST_PAGE_COUNT = "UPDATE_POST_PAGE_COUNT";
+export const UPDATE_TOTAL_POST_COUNT = "UPDATE_TOTAL_POST_COUNT";
+export const UPDATE_USER_POST = "UPDATE_USER_POST";

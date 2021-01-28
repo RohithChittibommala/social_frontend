@@ -1,12 +1,6 @@
 import styled from "styled-components";
-import fonts from "../../utils/fonts";
 import Modal from "react-modal";
-import {
-  AiFillHeart,
-  AiOutlineHeart,
-  AiOutlineSend,
-  AiFillDelete,
-} from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart, AiOutlineSend } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 export const PostArticle = styled.article`
@@ -19,13 +13,7 @@ export const PostArticle = styled.article`
   border-left: 4px solid rgba(213, 219, 213, 0.5);
   margin-right: 20%;
 `;
-export const PostImageDiv = styled.div`
-  /* max-width: 450px;
-  max-height: 600px;
-  margin: 0 auto;
-  overflow-x: hidden;
-  overflow-y: hidden; */
-`;
+export const PostImageDiv = styled.div``;
 export const PostImage = styled.img`
   display: block;
   width: 100%;
@@ -46,7 +34,8 @@ export const PostUserImage = styled.img`
 `;
 export const PostUserImageDiv = styled.div`
   width: 30px;
-  height: 34px;
+  height: auto;
+  overflow: hidden;
 `;
 export const PostUserNameDiv = styled.div`
   margin-left: 12px;
@@ -93,8 +82,6 @@ export const LikeIconDiv = styled.div`
   padding: 5px 15px;
   margin: 15px 0;
   align-items: center;
-  /* height: 50px; */
-  /* position: relative; */
 `;
 export const OpenHeartIcon = styled(AiOutlineHeart)`
   color: black;
@@ -147,7 +134,7 @@ export const PostUserName = styled(Link)`
   }
 `;
 
-export const ShowComments = styled(Modal)`
+export const ShowCommentsModal = styled(Modal)`
   height: 400px;
   width: 400px;
   margin: 150px auto;
@@ -162,4 +149,21 @@ export const Comment = styled.p`
   border-bottom: 1.5px solid lightgrey;
   padding: 10px 16px;
   font-size: 19px;
+`;
+
+export const ConformDeleteModal = styled(Modal)`
+  height: 200px;
+  width: 400px;
+  margin: 150px auto;
+  padding: 15px 20px;
+  border-radius: 30px;
+  outline: none;
+  background: #fff;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+  margin-top: 40px;
 `;

@@ -3,9 +3,11 @@ import { reducer } from "./reducer";
 export const intialState = {
   user: {},
   posts: [],
+  isFirstLoad: true,
   userPosts: [],
   isAuthenicated: false,
-  otherFetchedUsers: {},
+  currentPageCount: 0,
+  noOfPostsInDB: 100,
 };
 export const Store = createContext(intialState);
 

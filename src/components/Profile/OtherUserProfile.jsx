@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import {
   FollowButton,
   GalleryImage,
@@ -16,7 +16,7 @@ import {
   ProfileStat,
   ProfileStatNum,
   ProfileStatsDiv,
-  ShowFollowersAndFollowing,
+  ShowFollowersAndFollowingModal,
   ModalTitle,
   ModalUserImage,
   ModalItem,
@@ -26,7 +26,7 @@ import {
 } from "./ProfileElements";
 import { FilledHeartIcon } from "../posts/PostElements";
 import { Store } from "../state/Store";
-import { addOtherUserData, updateUserData } from "../state/actionTypes";
+import { addOtherUserData, updateUserData } from "../state/actionCreators";
 import { toast } from "react-toastify";
 import { toastEmmiterOptions } from "../../utils/toastSettings";
 
@@ -34,14 +34,17 @@ const OtherUserProfile = () => {
   const [state, dispatch] = useContext(Store);
   const { user, otherFetchedUsers } = state;
   const { id } = useParams();
+  const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalData, setModalData] = useState({ name: "", data: [] });
   const [userProfile, setUserProfile] = useState({});
   const [isUserFollowed, setIsUserFollowed] = useState(false);
 
   useEffect(() => {
-    if (id) {
-      fetch(`http://localhost:4000/users/${id}`, {
+    if (!state.isAuthenicated) {
+      history.push("/login");
+    } else if (id) {
+      fetch(`${process.env.REACT_APP_API_URL}/users/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer:${localStorage.getItem("jwt")}`,
@@ -56,56 +59,61 @@ const OtherUserProfile = () => {
         })
         .catch((err) => toast.error(err, toastEmmiterOptions));
     }
-  }, [id, user?.following, user?._id]);
+  }, [id, state.isAuthenicated, history, user?.following, user?._id]);
 
   const handleUserFollow = async () => {
-    const resJSON = await fetch("http://localhost:4000/users/follow", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer:${localStorage.getItem("jwt")}`,
-      },
-      body: JSON.stringify({ id }),
-    });
+    const resJSON = await fetch(
+      `${process.env.REACT_APP_API_URL}/users/follow`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer:${localStorage.getItem("jwt")}`,
+        },
+        body: JSON.stringify({ id }),
+      }
+    );
     const res = await resJSON.json();
 
     if (!res.error) {
       setUserProfile((prev) => ({ ...prev, user: res.followedUser }));
-      // dispatch(addOtherUserData({ id, data: res.followedUser }));
+      localStorage.setItem("user", JSON.stringify(res.currentUser));
       dispatch(updateUserData(res.currentUser));
       setIsUserFollowed(true);
     }
   };
+  const handleProfileStat = (title) => {
+    if (title !== "posts") {
+      setModalData({ name: title, data: userProfile?.user[title] });
+      setIsModalOpen(true);
+    }
+  };
   const handleUserUnFollow = async () => {
-    const resJSON = await fetch("http://localhost:4000/users/unfollow", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer:${localStorage.getItem("jwt")}`,
-      },
-      body: JSON.stringify({ id }),
-    });
+    const resJSON = await fetch(
+      `${process.env.REACT_APP_API_URL}/users/unfollow`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer:${localStorage.getItem("jwt")}`,
+        },
+        body: JSON.stringify({ id }),
+      }
+    );
     const res = await resJSON.json();
     if (!res.error) {
       setUserProfile((prev) => ({ ...prev, user: res.unfollowedUser }));
       dispatch(updateUserData(res.currentUser));
-      // dispatch(addOtherUserData({ id, data: res.unfollowedUser }));
+      localStorage.setItem("user", JSON.stringify(res.currentUser));
       setIsUserFollowed(false);
     }
   };
 
-  console.log(userProfile);
+  console.log(userProfile?.user?.followers);
+  console.log(userProfile?.user?.following);
 
   const renderProfileStat = (number, title) => (
-    <ProfileStat
-      onClick={
-        title !== "posts" &&
-        (() => {
-          setModalData({ name: title, data: userProfile?.user?.[title] });
-          setIsModalOpen(true);
-        })
-      }
-    >
+    <ProfileStat onClick={() => handleProfileStat(title)}>
       <ProfileStatNum>{number}</ProfileStatNum>
       {title}
     </ProfileStat>
@@ -138,11 +146,13 @@ const OtherUserProfile = () => {
         <ProfileInfoDiv>
           <ProfileNameContainer>
             <ProfileName>{userProfile?.user?.name}</ProfileName>
-            <FollowButton
-              onClick={isUserFollowed ? handleUserUnFollow : handleUserFollow}
-            >
-              {isUserFollowed ? "unfollow" : "follow"}
-            </FollowButton>
+            {userProfile?.user && (
+              <FollowButton
+                onClick={isUserFollowed ? handleUserUnFollow : handleUserFollow}
+              >
+                {isUserFollowed ? "unfollow" : "follow"}
+              </FollowButton>
+            )}
           </ProfileNameContainer>
           <ProfileStatsDiv>
             {renderProfileStat(userProfile?.posts?.length, "posts")}
@@ -157,7 +167,7 @@ const OtherUserProfile = () => {
           </ProfileStatsDiv>
         </ProfileInfoDiv>
       </Wrapper>
-      <ShowFollowersAndFollowing
+      <ShowFollowersAndFollowingModal
         style={{
           overlay: {
             backgroundColor: "rgba(63, 59, 59, 0.75)",
@@ -170,7 +180,7 @@ const OtherUserProfile = () => {
         {modalData?.data?.map((user) =>
           renderModelItem(user.imageUrl, user.name, user._id)
         )}
-      </ShowFollowersAndFollowing>
+      </ShowFollowersAndFollowingModal>
       <GalleryWrapper>
         {userProfile?.posts?.map((post, index) =>
           post.url ? renderGalleryImageDiv(post, index) : null
