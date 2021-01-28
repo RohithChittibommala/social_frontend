@@ -95,12 +95,13 @@ export const ModalItem = styled.div`
 `;
 export const ModalUserImage = styled.img`
   width: 30px;
-  object-fit: "contain";
+  overflow: hidden;
+  height: auto;
   border-radius: 50%;
 `;
 export const ModalUserImageDiv = styled.div`
   width: 30px;
-  height: 34px;
+  height: auto;
 `;
 export const ModalUserName = styled(Link)`
   font-weight: bold;

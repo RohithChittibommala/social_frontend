@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";

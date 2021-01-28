@@ -111,7 +111,7 @@ function Profile() {
       const { url } = await responseJSON.json();
       updateProfileImage(url);
     } catch (error) {
-    toast.error("something went wrong ", toastEmmiterOptions);
+      toast.error("something went wrong ", toastEmmiterOptions);
     }
   };
 

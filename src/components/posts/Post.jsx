@@ -48,16 +48,15 @@ function Card({
   name,
   userId,
   imageUrl,
-  comments,
+  comments = [],
 }) {
   const [state, dispatch] = useContext(Store);
   const { user } = state;
   const [isPostLiked, setIsPostLiked] = useState(likes?.includes(user._id));
-  const [noOfLikes, setNoOfLikes] = useState(likes.length);
+  const [noOfLikes, setNoOfLikes] = useState(likes?.length);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [isDelModalOpen, setIsDelModalOpen] = useState(false);
-  const [postComments, setPostComments] = useState(comments);
 
   const handlePostLike = () => {
     setNoOfLikes((prev) => prev + 1);
@@ -83,10 +82,6 @@ function Card({
 
   const handleCommentOnPost = async () => {
     try {
-      setPostComments((prev) => [
-        ...prev,
-        { postedBy: { _id: user._id, name: user.name }, text: comment },
-      ]);
       const updatedPostJson = await fetch(
         `${process.env.REACT_APP_API_URL}/posts/comment`,
         {
@@ -204,7 +199,7 @@ function Card({
           style={ModalStyles}
         >
           <ModalTitle>Comments</ModalTitle>
-          {postComments.map(({ postedBy, text }, index) => (
+          {comments.map(({ postedBy, text }, index) => (
             <Comment key={index}>
               <PostDescriptionStrong>{postedBy.name}</PostDescriptionStrong>
               {text}
