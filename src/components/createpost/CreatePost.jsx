@@ -25,7 +25,6 @@ function Create() {
 
   useEffect(() => {
     if (!state.isAuthenicated) history.push("/login");
-    console.log(state.isAuthenicated);
   }, [state.isAuthenicated, history]);
 
   const handleImageUpload = (e) => {
@@ -55,7 +54,7 @@ function Create() {
       const { url } = await responseJSON.json();
       createNewPost(url);
     } catch (error) {
-      //// handle errpr
+      toast.error("some thing went wrong", error.message);
     }
   };
 
@@ -73,7 +72,6 @@ function Create() {
         }
       );
       const data = await responseJSON.json();
-      console.log(data);
       if (data.error) toast.error(`${data.error}`, toastEmmiterOptions);
       else {
         dispatch(addNewPost(data));
@@ -81,11 +79,10 @@ function Create() {
         history.push("/");
       }
     } catch (error) {
-      console.error(error);
+      toast.error("something went wrong", error.message);
     }
   };
 
-  console.log(description.length);
   return (
     <CreatePostDiv>
       <InputContainer>

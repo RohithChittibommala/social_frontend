@@ -36,7 +36,6 @@ function Login() {
   const [errors, setErrors] = useState({});
   const history = useHistory();
   const [state, dispatch] = useContext(Store);
-  console.log(state);
   useEffect(() => {
     localStorage.clear();
   }, [state]);
@@ -60,8 +59,6 @@ function Login() {
       else if (data.userExist)
         setErrors((prevState) => ({ ...prevState, email: data.userExist }));
       else if (data.user) {
-        console.log("this is called");
-
         if (!data.user.isVerified) {
           toast.error(
             "Please click the link that is send to your email address",
@@ -76,7 +73,6 @@ function Login() {
       }
     } catch (error) {
       toast.error(`error occured ${error}`, toastEmmiterOptions);
-      console.error(error);
     }
   };
 

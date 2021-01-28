@@ -19,6 +19,8 @@ import {
 import registerImageurl from "./assets/register.svg";
 import { Link, useHistory } from "react-router-dom";
 import { Store } from "../state/Store";
+import { toast } from "react-toastify";
+import { toastEmmiterOptions } from "../../utils/toastSettings";
 function Register() {
   const [state] = useContext(Store);
   const [email, setEmail] = useState("");
@@ -51,12 +53,11 @@ function Register() {
         setErrors((prevState) => ({ ...prevState, email: data.userExist }));
       else history.push("/login");
     } catch (error) {
-      console.error(error);
+      toast.error("something went wrong ", toastEmmiterOptions);
     }
   };
   const populateErrorMessages = (registerErrors) => {
     registerErrors.forEach(({ param, msg }) => {
-      console.log(msg, param);
       setErrors((prevState) => ({
         ...prevState,
         [param]: msg,

@@ -61,7 +61,6 @@ function Profile() {
       setIsModalOpen(true);
     }
   };
-  console.log(followers, following);
   const renderProfileStat = (number, title) => (
     <ProfileStat onClick={() => handleProfileStat(title)}>
       <ProfileStatNum>{number}</ProfileStatNum>
@@ -95,7 +94,6 @@ function Profile() {
     const [uploadedImage] = files;
     setImageFile(uploadedImage);
   };
-  console.log(imageFile);
   const postData = async () => {
     setImageModalOpen(false);
     const data = new FormData();
@@ -113,7 +111,7 @@ function Profile() {
       const { url } = await responseJSON.json();
       updateProfileImage(url);
     } catch (error) {
-      //// handle errorr
+    toast.error("something went wrong ", toastEmmiterOptions);
     }
   };
 
@@ -137,7 +135,9 @@ function Profile() {
 
       if (res.error) toast.error(res.error, toastEmmiterOptions);
       else toast.success(res.msg, toastEmmiterOptions);
-    } catch (error) {}
+    } catch (error) {
+      toast.error("something went wrong ", toastEmmiterOptions);
+    }
   };
 
   const updateProfileImage = async (url) => {
@@ -154,14 +154,13 @@ function Profile() {
         }
       );
       const data = await responseJSON.json();
-      console.log(data);
       if (data.error) toast.error(`${data.error}`, toastEmmiterOptions);
       else {
         toast.success("profile  updated", toastEmmiterOptions);
         dispatch(updateUserData(data));
       }
     } catch (error) {
-      console.error(error);
+      toast.error("something went wrong ", toastEmmiterOptions);
     }
   };
   return (

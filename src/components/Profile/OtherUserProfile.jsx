@@ -53,7 +53,6 @@ const OtherUserProfile = () => {
         .then((responseJSON) => responseJSON.json())
         .then((res) => {
           setUserProfile(res);
-          console.log("network request made");
           if (res.user.followers.some((u) => u._id === user._id))
             setIsUserFollowed(true);
         })
@@ -108,10 +107,6 @@ const OtherUserProfile = () => {
       setIsUserFollowed(false);
     }
   };
-
-  console.log(userProfile?.user?.followers);
-  console.log(userProfile?.user?.following);
-
   const renderProfileStat = (number, title) => (
     <ProfileStat onClick={() => handleProfileStat(title)}>
       <ProfileStatNum>{number}</ProfileStatNum>

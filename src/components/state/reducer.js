@@ -13,7 +13,7 @@ import {
 } from "./actionTypes";
 import { intialState } from "./Store";
 
-export const reducer = (state, action) => {
+export const reducer = (state, action = {}) => {
   switch (action.type) {
     case USER_LOGGED_IN:
       return {
@@ -31,7 +31,7 @@ export const reducer = (state, action) => {
     case LOGOUT:
       return intialState;
     case FETCHED_POSTS:
-      return { ...state, posts: [...state.posts, ...action.payload] };
+      return { ...state, posts: [...state.posts, ...action?.payload] };
     case FETCHED_USER_POSTS:
       return { ...state, userPosts: action.payload };
     case DELETE_POST:

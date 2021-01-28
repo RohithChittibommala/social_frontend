@@ -76,7 +76,9 @@ function Card({
         if (user._id === updatedPost.postedBy?._id)
           dispatch(updateUserPost(updatedPost));
       })
-      .catch((err) => console.error(err));
+      .catch((err) =>
+        toast.error("something went wrong ", toastEmmiterOptions)
+      );
   };
 
   const handleCommentOnPost = async () => {
@@ -97,7 +99,6 @@ function Card({
         }
       );
       const updatedPost = await updatedPostJson.json();
-      console.log(updatedPost);
       dispatch(updatePostData(updatedPost));
     } catch (error) {
       toast.error("oops please try after some time", toastEmmiterOptions);
@@ -122,7 +123,9 @@ function Card({
         if (user._id === updatedPost.postedBy?._id)
           dispatch(updateUserPost(updatedPost));
       })
-      .catch((err) => console.error(err));
+      .catch((err) =>
+        toast.error("something went wrong ", toastEmmiterOptions)
+      );
   };
 
   const hanldePostDelete = () => {
