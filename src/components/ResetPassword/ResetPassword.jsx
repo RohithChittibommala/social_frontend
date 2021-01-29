@@ -55,6 +55,7 @@ const Button = styled.button`
 const ResetPassword = () => {
   const history = useHistory();
   const token = useParams();
+  console.log(token);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const handlePasswordChange = async () => {
