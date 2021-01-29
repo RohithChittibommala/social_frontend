@@ -26,13 +26,13 @@ import {
 } from "./ProfileElements";
 import { FilledHeartIcon } from "../posts/PostElements";
 import { Store } from "../state/Store";
-import { addOtherUserData, updateUserData } from "../state/actionCreators";
+import { updateUserData } from "../state/actionCreators";
 import { toast } from "react-toastify";
 import { toastEmmiterOptions } from "../../utils/toastSettings";
 
 const OtherUserProfile = () => {
   const [state, dispatch] = useContext(Store);
-  const { user, otherFetchedUsers } = state;
+  const { user } = state;
   const { id } = useParams();
   const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
