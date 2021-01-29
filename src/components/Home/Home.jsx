@@ -71,21 +71,24 @@ function Home() {
         </p>
       }
     >
-      {posts?.map((post) => (
-        <Post
-          key={post?._id}
-          id={post._id}
-          description={post.description}
-          title={post.title}
-          name={post?.postedBy?.name}
-          url={post.url}
-          likes={post.likes}
-          userId={post?.postedBy?._id}
-          imageUrl={post.postedBy?.imageUrl}
-          comments={post.comments}
-          createdAt={post.createdAt}
-        />
-      ))}
+      {posts?.map(
+        (post) =>
+          post && (
+            <Post
+              key={post?._id}
+              id={post._id}
+              description={post.description}
+              title={post.title}
+              name={post?.postedBy?.name}
+              url={post.url}
+              likes={post.likes}
+              userId={post?.postedBy?._id}
+              imageUrl={post.postedBy?.imageUrl}
+              comments={post.comments}
+              createdAt={post.createdAt}
+            />
+          )
+      )}
     </InfiniteScroll>
   );
 }
